@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+import stockquoteservice.*;
+
 public class UI extends Application {
 
     Stage window;
