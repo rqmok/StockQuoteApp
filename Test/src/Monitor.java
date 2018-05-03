@@ -1,5 +1,8 @@
 public abstract class Monitor {
 
+    public enum monitorTypes {
+        STOCK_QUOTE_WS_MONITOR
+    }
 
     public abstract String getSymbolLabelText();
     public abstract String getLastTradeLabelText();
