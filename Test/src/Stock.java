@@ -42,7 +42,7 @@ public class Stock {
     public ArrayList<Monitor> getAllMonitors() {
         // Create a copy of the array list
         ArrayList<Monitor> retMonitors = new ArrayList<Monitor>();
-        for (monitor in this.monitors) {
+        for (Monitor monitor : this.monitors) {
             retMonitors.append(monitor);
         }
 
