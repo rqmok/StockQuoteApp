@@ -114,9 +114,9 @@ m2=1</panel_attributes>
       <w>300</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>StockQuoteWS
+    <panel_attributes>StockQuoteWSAdapter
 --
-+ StockQuoteWS()</panel_attributes>
++ StockQuoteWSAdapter()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -205,5 +205,16 @@ m2=1</panel_attributes>
 m1=0..*
 m2=1</panel_attributes>
     <additional_attributes>10.0;70.0;170.0;70.0;170.0;10.0;250.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>10</y>
+      <w>1140</w>
+      <h>490</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0;1120.0;10.0;1120.0;470.0;1050.0;470.0</additional_attributes>
   </element>
 </diagram>
