@@ -82,15 +82,15 @@ StockService
     <panel_attributes>StockData
 --
 - symbol: String
-- lastTrade: float
+- lastTrade String
 - date: String
 - time: String
 --
 + getSymbol(): String
-+ getLastTrade(): float
++ getLastTrade(): String
 + getDate(): String
 + getTime(): String
-+ StockData(String, float, String, String)</panel_attributes>
++ StockData(String, String, String, String)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -143,13 +143,13 @@ Monitor
 --
 + getMonitorType: enum
 + getSymbolLabelText(): String
-+ getLastTradeLabelText(): float
-+ setLastTradeLabelText(float lastTrade): void
++ getLastTradeLabelText(): String
++ setLastTradeLabelText(String lastTrade): void
 + getDateLabelText(): String
 + setDateLabelText(String date): void
 + getTimeLabelText(): String
 + setTimeLabelText(String time): void
-+ setAllLabelText(float, String, String)
++ setAllLabelText(String, String, String)
 </panel_attributes>
     <additional_attributes/>
   </element>
