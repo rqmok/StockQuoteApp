@@ -22,30 +22,30 @@ public class StockQuoteWSMonitor extends Monitor{
 
     public String getSymbolLabelText(){
         return this.symbolLabel.get();
-    };
+    }
     public String getLastTradeLabelText(){
         return this.lastTradeLabel.get();
-    };
+    }
     public void setLastTradeLabelText(String lastTrade){
         this.lastTradeLabel.set(lastTrade);
-    };
+    }
     public String getDateLabelText(){
         return this.dateLabel.get();
-    };
+    }
     public void setDateLabelText(String date){
         this.dateLabel.set(date);
-    };
+    }
     public String getTimeLabelText(){
         return this.timeLabel.get();
-    };
+    }
     public void setTimeLabelText(String time){
         this.timeLabel.set(time);
-    };
+    }
     public void setAllLabelText(String lastTrade, String date ,String time){
         this.lastTradeLabel.set(lastTrade);
         this.dateLabel.set(date);
         this.timeLabel.set(time);
-    };
+    }
 
 
 }
