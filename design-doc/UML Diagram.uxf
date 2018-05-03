@@ -33,7 +33,7 @@
     </coordinates>
     <panel_attributes>StockQuoteWSMonitor
 --
-- monitorType: enum
+- monitorType: monitorTypes
 - symbolLabel: Label
 - lastTradeLabel: Label
 - dateLabel: Label
@@ -140,6 +140,8 @@ m2=1</panel_attributes>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 Monitor
+--
+- monitorTypes: enum
 --
 + getMonitorType: enum
 + getSymbolLabelText(): String
