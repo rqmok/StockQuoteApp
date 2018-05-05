@@ -186,7 +186,7 @@ m2=1</panel_attributes>
       <x>490</x>
       <y>320</y>
       <w>350</w>
-      <h>190</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>ApplicationController
 --
@@ -194,11 +194,12 @@ m2=1</panel_attributes>
 - mainTable: TableView&lt;StockData&gt;
 - stockSymbol: TextField
 - stocks: Stock[]
+- services: StockService[]
 --
 + main(String[]): static void
 + start(Stage): void
-+ addNewTracker(): void
-+ deleteTracker(): void
++ addNewMonitor(): void
++ deleteMonitor(): void
 + getAllStockData(): ObservableList&lt;StockData&gt;
 </panel_attributes>
     <additional_attributes/>
@@ -220,14 +221,14 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>500</y>
+      <y>510</y>
       <w>390</w>
-      <h>140</h>
+      <h>130</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=0..*
 m2=1</panel_attributes>
-    <additional_attributes>10.0;120.0;10.0;80.0;370.0;80.0;370.0;10.0</additional_attributes>
+    <additional_attributes>10.0;110.0;10.0;70.0;370.0;70.0;370.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
