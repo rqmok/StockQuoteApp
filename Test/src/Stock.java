@@ -81,4 +81,13 @@ public class Stock {
         return this.stockService;
     }
 
+    public void setStockService(StockService service) {
+        if (service == null) {
+            System.console().printf("Stock: Provided null stock service.");
+            return;
+        }
+
+        this.stockService = service;
+    }
+
 }

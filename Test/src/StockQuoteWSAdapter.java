@@ -4,6 +4,8 @@ import java.util.List;
 
 public class StockQuoteWSAdapter implements StockService {
 
+    private serviceTypes serviceType = serviceTypes.STOCK_QUOTE_WS_SERVICE;
+
     private static final int INDEX_SYMBOL = 0, INDEX_LAST_TRADE = 1, INDEX_DATE = 2, INDEX_TIME = 3;
 
     StockQuoteWS SQservice;
@@ -29,6 +31,10 @@ public class StockQuoteWSAdapter implements StockService {
         );
 
         return data;
+    }
+
+    public serviceTypes getServiceType() {
+        return this.serviceType;
     }
 
 }

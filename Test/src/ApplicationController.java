@@ -20,19 +20,19 @@ public class ApplicationController extends Application implements ApplicationCon
     TableView<StockData> mainTable;
 
     //declare new variable of type TextField. This is what we will provide users to input data
-    TextField stockSymbol;
+    TextField stockSymbolTextField;
 
     // List of stocks
-    ArrayList<Stock> stocks;
+    private ArrayList<Stock> stocks = new ArrayList<>();
 
     // List of available stock services
-    ArrayList<StockService> services;
+    private ArrayList<StockService> services = new ArrayList<>();
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 
-    // Helper function fore creating a new column for the table view
+    // Helper function for creating a new column for the table view
     private TableColumn<StockData, String> createTableColumn(String title, String property) {
         // Create a new column
         TableColumn<StockData, String> column = new TableColumn<>(title);
@@ -48,28 +48,31 @@ public class ApplicationController extends Application implements ApplicationCon
         window = primaryStage;
         window.setTitle("Stock Tracker App");
 
+        // Create a new service
+        services.add(new StockQuoteWSAdapter());
+
         // Create new table
         mainTable = new TableView<>();
 
         // Make columns
         // Stock Symbol
-        TableColumn<StockData, String> symbolColumn = createTableColumn("Stock Symbol", "getSymbol");
+        TableColumn<StockData, String> symbolColumn = createTableColumn("Stock Symbol", "symbol");
         // Last Trade
-        TableColumn<StockData, String> tradeColumn = createTableColumn("Last Trade", "getLastTrade");
+        TableColumn<StockData, String> tradeColumn = createTableColumn("Last Trade", "lastTrade");
         // Date
-        TableColumn<StockData, String> dateColumn = createTableColumn("Date", "getDate");
+        TableColumn<StockData, String> dateColumn = createTableColumn("Date", "date");
         // Time
-        TableColumn<StockData, String> timeColumn = createTableColumn("Time", "getTime");
+        TableColumn<StockData, String> timeColumn = createTableColumn("Time", "time");
 
         //feed our observable list into the table
-        mainTable.setItems(getAllStockData());
+        //mainTable.setItems(getAllStockData());
         //Put the columns into our table
         mainTable.getColumns().addAll(symbolColumn, tradeColumn, dateColumn, timeColumn);
 
         //Create TextField for entering stock names
-        stockSymbol = new TextField();
-        stockSymbol.setPromptText("Enter Stock Symbol");
-        stockSymbol.setMinWidth(100);
+        stockSymbolTextField = new TextField();
+        stockSymbolTextField.setPromptText("Enter Stock Symbol");
+        stockSymbolTextField.setMinWidth(100);
 
         //Create button for adding new stock tracker
         Button stockAddButton = new Button("Add New Stock");
@@ -88,7 +91,7 @@ public class ApplicationController extends Application implements ApplicationCon
         //Set spacing between items in the HBox
         hBox.setSpacing(10);
         //Add our items to the HBox
-        hBox.getChildren().addAll(stockSymbol,stockAddButton,stockDeleteButton);
+        hBox.getChildren().addAll(stockSymbolTextField,stockAddButton,stockDeleteButton);
 
         //Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
         VBox vBox = new VBox();
@@ -100,22 +103,84 @@ public class ApplicationController extends Application implements ApplicationCon
 
     }
 
+    // Helper function to find a stock
+    private Stock findStock(String stockSymbol) {
+        for (Stock stock : stocks) {
+            if (stock.getStockData().getSymbol() == stockSymbol) {
+                return stock;
+            }
+        }
+
+        return null;
+    }
+
+    // Helper function to find a service
+    private StockService findService(StockService.serviceTypes serviceType) {
+        for (StockService currentService : services) {
+            if (currentService.getServiceType() == StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE) {
+                return currentService;
+            }
+        }
+
+        return null;
+    }
+
     //Function for adding a new tracker
     public void addNewMonitor(){
-        //Create new monitor
-
-
-
+        // Get test from textfield
+        String symbolText = stockSymbolTextField.getText();
 
         //Clear the text field
-        stockSymbol.clear();
+        stockSymbolTextField.clear();
+
+        // Check for empty text field
+        if (symbolText == null || symbolText.length() == 0) {
+            System.out.println("ApplicationController: symbol text is null");
+            return;
+        }
+
+        // First check the service for data
+        StockService service = findService(StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE);
+        // Check if service was found.
+        if (service == null) {
+            System.out.println("ApplicationController: service not found");
+            return;
+        }
+
+        // Ask the service for data
+        StockData data = service.getStockData(symbolText);
+        // Check if data was received
+        if (data == null) {
+            System.out.println("ApplicationController: service return null data.");
+            return;
+        }
+
+        // Data was successfully retrieved.
+        // Check if stock already exists
+        Stock stock = findStock(symbolText);
+        if (stock == null) {
+            // Create a new stock
+            stock = new Stock(data);
+        }
+
+        // Create a new monitor
+        Monitor monitor = new StockQuoteWSMonitor(this);
+
+        // Assign the service and monitor to the Stock
+        stock.addMonitor(monitor);
+        stock.setStockService(service);
+
+        // Keep track of stocks
+        stocks.add(stock);
+
+        reloadData();
     }
 
     //Function for deleting tracker
     public void deleteMonitor(){
         //Two variables, one for storing the tracker selected by the user and the other stores all the trackers
         //This allows us to delete any trackers from the table that are selected
-        ObservableList<StockData>selectedTracker,allTrackers;
+        ObservableList<StockData> selectedTracker, allTrackers;
         allTrackers = mainTable.getItems();
         //Get item selected by user
         selectedTracker = mainTable.getSelectionModel().getSelectedItems();
@@ -128,16 +193,20 @@ public class ApplicationController extends Application implements ApplicationCon
     //This is our observable list filled with StockData objects. Our table will be display this data and change to
     //reflect any changes made to this data
     public ObservableList<StockData> getAllStockData(){
-        ObservableList<StockData> stockData = FXCollections.observableArrayList();
-        // TODO: Add the StockData
+        ObservableList<StockData> stockDataList = FXCollections.observableArrayList();
 
-        return stockData;
+        for (Stock stock : stocks) {
+            stockDataList.add(stock.getStockData());
+        }
+
+        return stockDataList;
     }
 
     @Override
     public void reloadData() {
-        // TODO: Reload stock data
-        //We update the observable list
-        ObservableList<StockData> allTrackers = mainTable.getItems();
+        // Get current data
+        ObservableList<StockData> stockDataList = getAllStockData();
+
+        mainTable.setItems(stockDataList);
     }
 }
