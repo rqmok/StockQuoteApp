@@ -62,6 +62,37 @@ public class ApplicationController extends Application {
         //Put the columns into our table
         mainTable.getColumns().addAll(symbolColumn,tradeColumn,dateColumn,timeColumn);
 
+        //Create TextField for entering stock names
+        stockSymbol = new TextField();
+        stockSymbol.setPromptText("Enter Stock Symbol");
+        stockSymbol.setMinWidth(100);
+
+        //Create button for adding new stock tracker
+        Button stockAddButton = new Button("Add New Stock");
+        //Define action for clicking button
+        stockAddButton.setOnAction(e -> addNewTracker());
+
+        //Create button for Deleting stock tracker
+        Button stockDeleteButton = new Button("Delete Stock");
+        //Define action for clicking button
+        stockDeleteButton.setOnAction(e -> deleteTracker());
+
+        //Create new HBox for buttons and text field
+        HBox hBox = new HBox();
+        //Creating Insets for that the items are not right on the border of the HBox
+        hBox.setPadding(new Insets(10,10,10,10));
+        //Set spacing between items in the HBox
+        hBox.setSpacing(10);
+        //Add our items to the HBox
+        hBox.getChildren().addAll(stockSymbol,stockAddButton,stockDeleteButton);
+
+        //Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(mainTable, hBox);
+
+        Scene scene = new Scene(vBox);
+        window.setScene(scene);
+        window.show();
 
     }
 
