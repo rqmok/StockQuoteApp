@@ -4,6 +4,7 @@ public class Stock {
 
     private StockData data;
     private ArrayList<Monitor> monitors;
+    private StockService stockService;
 
     public Stock(StockData stockData) {
         if (stockData == null) {
@@ -55,7 +56,29 @@ public class Stock {
     }
 
     // TODO: implement add and remove monitor public functions
-    public void addMonitor(Monitor monitor) {}
-    public void removeMonitor(Monitor monitor) {}
+    public void addMonitor(Monitor monitor) {
+        // Check monitor is not null
+        if (monitor == null) {
+            System.console().printf("Stock: Cannot add null monitor.");
+            return;
+        }
+
+        this.monitors.add(monitor);
+    }
+
+    public void removeMonitor(Monitor monitor) {
+        // Check monitor is not null
+        if (monitor == null) {
+            System.console().printf("Stock: Cannot add null monitor.");
+            return;
+        }
+
+        // Use array list helper function to remove monitor
+        this.monitors.remove(monitor);
+    }
+
+    public StockService getStockService() {
+        return this.stockService;
+    }
 
 }
