@@ -4,10 +4,15 @@ public abstract class Monitor {
         STOCK_QUOTE_WS_MONITOR
     }
 
-    public ApplicationControllerInterface applicationController;
+    protected monitorTypes monitorType;
+    protected ApplicationControllerInterface applicationController;
 
+    public void update() {
+        this.applicationController.reloadData();
+    }
 
-    public abstract void update();
-    public enum getMonitorType{}
+    public monitorTypes getMonitorType() {
+        return this.monitorType;
+    }
 
 }
