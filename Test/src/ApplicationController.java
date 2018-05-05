@@ -130,6 +130,8 @@ public class ApplicationController extends Application implements ApplicationCon
 
     @Override
     public void reloadData() {
+        //We update the observable list
+        ObservableList<StockData> allTrackers = mainTable.getItems();
 
     }
 }
