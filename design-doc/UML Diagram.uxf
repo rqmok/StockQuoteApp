@@ -5,26 +5,31 @@
     <id>UMLClass</id>
     <coordinates>
       <x>40</x>
-      <y>430</y>
+      <y>330</y>
       <w>260</w>
-      <h>170</h>
+      <h>210</h>
     </coordinates>
     <panel_attributes>Stock
 --
+- data: StockData
+- monitors: Monitor[]
 - stockService: StockService
 --
++ getStockData(): StockData
++ setStockData(StockData): void
 + getMonitor(int): Monitor
 + getAllMonitors(): Monitor[]
 + addMonitor(Monitor): void
 + removeMonitor(Monitor): void
-+ getStockService(): StockService</panel_attributes>
++ getStockService(): StockService
++ Stock(StockData)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>560</x>
-      <y>180</y>
+      <x>850</x>
+      <y>110</y>
       <w>390</w>
       <h>90</h>
     </coordinates>
@@ -32,29 +37,77 @@
 --
 - monitorType: monitorTypes
 --
-+ StockQuoteWSMonitor()
-+ StockQuoteWSMonitor(String, String, String, String)</panel_attributes>
++ StockQuoteWSMonitor(ApplicationControllerInterface)
+</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>160</y>
+      <w>130</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..*
+m2=1</panel_attributes>
+    <additional_attributes>110.0;10.0;60.0;10.0;60.0;230.0;10.0;230.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>40</x>
-      <y>690</y>
+      <y>620</y>
       <w>310</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 StockService
 --
-+ getStockData(String symbol): Monitor</panel_attributes>
++ getStockData(String symbol): StockData</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
+      <x>40</x>
+      <y>60</y>
+      <w>290</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>StockData
+--
+- symbol: String
+- lastTrade String
+- date: String
+- time: String
+--
++ getSymbol(): String
++ getLastTrade(): String
++ getDate(): String
++ getTime(): String
++ StockData(String, String, String, String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>240</y>
+      <w>30</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
       <x>480</x>
-      <y>700</y>
+      <y>630</y>
       <w>300</w>
       <h>70</h>
     </coordinates>
@@ -67,7 +120,7 @@ StockService
     <id>Relation</id>
     <coordinates>
       <x>340</x>
-      <y>720</y>
+      <y>650</y>
       <w>160</w>
       <h>30</h>
     </coordinates>
@@ -77,46 +130,37 @@ StockService
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>70</x>
-      <y>0</y>
+      <x>400</x>
+      <y>110</y>
       <w>400</w>
-      <h>300</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 Monitor
 --
-- symbol: String
-- lastTrade String
-- date: String
-- time: String
 - monitorTypes: enum
-- stock: Stock
+- applicationController: ApplicationControllerInterface
 --
-+ getSymbol(): String
-+ getLastTrade(): String
-+ getDate(): String
-+ getTime(): String
-+ setMonitorData(String, String, String, String)
 + getMonitorType(): enum
-+ getStock(): Stock</panel_attributes>
++ update(): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
-      <y>240</y>
-      <w>120</w>
+      <x>790</x>
+      <y>170</y>
+      <w>80</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>290</x>
-      <y>450</y>
+      <y>380</y>
       <w>220</w>
       <h>130</h>
     </coordinates>
@@ -129,20 +173,20 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>0</x>
-      <y>140</y>
-      <w>230</w>
-      <h>670</h>
+      <y>240</y>
+      <w>870</w>
+      <h>500</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>70.0;10.0;10.0;10.0;10.0;650.0;210.0;650.0;210.0;630.0</additional_attributes>
+    <additional_attributes>100.0;10.0;100.0;60.0;10.0;60.0;10.0;480.0;850.0;480.0;850.0;430.0;780.0;430.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>490</x>
-      <y>370</y>
+      <y>320</y>
       <w>350</w>
-      <h>220</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>ApplicationController
 --
@@ -151,14 +195,12 @@ m2=1</panel_attributes>
 - stockSymbol: TextField
 - stocks: Stock[]
 - services: StockService[]
-- monitors: Monitor[]
 --
 + main(String[]): static void
 + start(Stage): void
 + addNewMonitor(): void
 + deleteMonitor(): void
 + getAllStockData(): ObservableList&lt;StockData&gt;
-+ reloadData(): void
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -166,20 +208,20 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>140</x>
-      <y>590</y>
+      <y>530</y>
       <w>110</w>
-      <h>120</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
 m2=1</panel_attributes>
-    <additional_attributes>90.0;100.0;90.0;60.0;10.0;60.0;10.0;10.0</additional_attributes>
+    <additional_attributes>90.0;90.0;90.0;50.0;10.0;50.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>580</y>
+      <y>510</y>
       <w>390</w>
       <h>130</h>
     </coordinates>
@@ -189,29 +231,41 @@ m2=1</panel_attributes>
     <additional_attributes>10.0;110.0;10.0;70.0;370.0;70.0;370.0;10.0</additional_attributes>
   </element>
   <element>
-    <id>Relation</id>
+    <id>UMLClass</id>
     <coordinates>
-      <x>210</x>
-      <y>290</y>
-      <w>50</w>
-      <h>160</h>
+      <x>900</x>
+      <y>320</y>
+      <w>270</w>
+      <h>80</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-
-m1=1
-m2=0..*</panel_attributes>
-    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+ApplicationControllerInterface
+--
++ reloadData(): void</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
-      <y>290</y>
-      <w>170</w>
-      <h>140</h>
+      <x>830</x>
+      <y>390</y>
+      <w>220</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>200.0;10.0;200.0;80.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>220</y>
+      <w>460</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
-m2=0..*</panel_attributes>
-    <additional_attributes>150.0;110.0;10.0;110.0;10.0;10.0</additional_attributes>
+m2=1</panel_attributes>
+    <additional_attributes>440.0;100.0;440.0;50.0;10.0;50.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
