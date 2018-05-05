@@ -80,7 +80,7 @@ StockService
       <x>70</x>
       <y>0</y>
       <w>400</w>
-      <h>280</h>
+      <h>300</h>
     </coordinates>
     <panel_attributes>&lt;&lt;abstract&gt;&gt;
 Monitor
@@ -98,8 +98,7 @@ Monitor
 + getTime(): String
 + setMonitorData(String, String, String, String)
 + getMonitorType(): enum
-+ getStock(): Stock
-+ setStock(Stock): void</panel_attributes>
++ getStock(): Stock</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -143,7 +142,7 @@ m2=1</panel_attributes>
       <x>490</x>
       <y>370</y>
       <w>350</w>
-      <h>240</h>
+      <h>220</h>
     </coordinates>
     <panel_attributes>ApplicationController
 --
@@ -180,39 +179,39 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>600</y>
+      <y>580</y>
       <w>390</w>
-      <h>110</h>
+      <h>130</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=0..*
 m2=1</panel_attributes>
-    <additional_attributes>10.0;90.0;10.0;50.0;370.0;50.0;370.0;10.0</additional_attributes>
+    <additional_attributes>10.0;110.0;10.0;70.0;370.0;70.0;370.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>210</x>
-      <y>270</y>
+      <y>290</y>
       <w>50</w>
-      <h>180</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-m1=1
-m2=0..*</panel_attributes>
-    <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>340</x>
-      <y>270</y>
-      <w>170</w>
       <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
 m2=0..*</panel_attributes>
-    <additional_attributes>150.0;130.0;10.0;130.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>290</y>
+      <w>170</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+m2=0..*</panel_attributes>
+    <additional_attributes>150.0;110.0;10.0;110.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
