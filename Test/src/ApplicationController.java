@@ -96,6 +96,30 @@ public class ApplicationController extends Application {
 
     }
 
+    //Function for adding a new tracker
+    public void addNewTracker(){
+        //Create new monitor
+
+
+
+
+        //Clear the text field
+        stockSymbol.clear();
+    }
+
+    //Function for deleting tracker
+    public void deleteTracker(){
+        //Two variables, one for storing the tracker selected by the user and the other stores all the trackers
+        //This allows us to delete any trackers from the table that are selected
+        ObservableList<StockData>selectedTracker,allTrackers;
+        allTrackers = mainTable.getItems();
+        //Get item selected by user
+        selectedTracker = mainTable.getSelectionModel().getSelectedItems();
+
+        //For every product selected, delete from the table
+        selectedTracker.forEach(allTrackers::remove);
+    }
+
 
     //This is our observable list filled with StockData objects. Our table will be display this data and change to
     //reflect any changes made to this data
