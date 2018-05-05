@@ -15,9 +15,7 @@ public class Stock {
         this.monitors = new ArrayList<Monitor>();
     }
 
-    public StockData getStockData() { return this.data; }
-
-    public void setStockData(StockData stockData) {
+    public StockData getStockData() {
         // Create a copy of the stock data
         StockData retStockData = new StockData(
                 this.data.getSymbol(),
@@ -30,8 +28,14 @@ public class Stock {
         return retStockData;
     }
 
+    public void setStockData(StockData stockData) {
+        if (stockData != null) {
+            this.data = stockData;
+        }
+    }
+
     public Monitor getMonitor(int index) {
-        if (index >= monitors.size) {
+        if (index >= monitors.size()) {
             System.console().printf("Stock: getMonitor: Index is out of range.");
             return null;
         }
@@ -43,7 +47,7 @@ public class Stock {
         // Create a copy of the array list
         ArrayList<Monitor> retMonitors = new ArrayList<Monitor>();
         for (Monitor monitor : this.monitors) {
-            retMonitors.append(monitor);
+            retMonitors.add(monitor);
         }
 
         // return the copy
