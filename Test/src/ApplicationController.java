@@ -31,4 +31,12 @@ public class ApplicationController extends Application {
         window = primaryStage;
         window.setTitle("Stock Tracker App");
     }
+
+
+    //This is our observable list filled with StockData objects. Our table will be display this data and change to
+    //reflect any changes made to this data
+    public ObservableList<StockData> getAllStockData(){
+        ObservableList<StockData> stockData = FXCollections.observableArrayList();
+        return stockData;
+    }
 }
