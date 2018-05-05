@@ -117,7 +117,7 @@ public class ApplicationController extends Application implements ApplicationCon
     // Helper function to find a service
     private StockService findService(StockService.serviceTypes serviceType) {
         for (StockService currentService : services) {
-            if (currentService.getServiceType() == StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE) {
+            if (currentService.getServiceType() == serviceType) {
                 return currentService;
             }
         }
