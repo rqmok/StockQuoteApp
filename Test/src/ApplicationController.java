@@ -106,7 +106,7 @@ public class ApplicationController extends Application implements ApplicationCon
     // Helper function to find a stock
     private Stock findStock(String stockSymbol) {
         for (Stock stock : stocks) {
-            if (stock.getStockData().getSymbol() == stockSymbol) {
+            if (stock.getStockData().getSymbol().contains(stockSymbol)) {
                 return stock;
             }
         }
@@ -161,23 +161,29 @@ public class ApplicationController extends Application implements ApplicationCon
         if (stock == null) {
             // Create a new stock
             stock = new Stock(data);
+
+            // Keep track of stock
+            stocks.add(stock);
+
+            // attach the stock service
+            stock.setStockService(service);
         }
 
         // Create a new monitor
         Monitor monitor = new StockQuoteWSMonitor(this);
 
-        // Assign the service and monitor to the Stock
+        // Assign monitor to the Stock
         stock.addMonitor(monitor);
-        stock.setStockService(service);
-
-        // Keep track of stocks
-        stocks.add(stock);
 
         reloadData();
+
+        for (Stock currentStock: stocks) {
+            System.out.println(currentStock.getStockData().getSymbol());
+        }
     }
 
     //Function for deleting tracker
-    public void deleteMonitor(){
+    public void deleteMonitor() {
         //Two variables, one for storing the tracker selected by the user and the other stores all the trackers
         //This allows us to delete any trackers from the table that are selected
         ObservableList<StockData> selectedTracker, allTrackers;
@@ -196,7 +202,9 @@ public class ApplicationController extends Application implements ApplicationCon
         ObservableList<StockData> stockDataList = FXCollections.observableArrayList();
 
         for (Stock stock : stocks) {
-            stockDataList.add(stock.getStockData());
+            for (Monitor monitor : stock.getAllMonitors()) {
+                stockDataList.add(stock.getStockData());
+            }
         }
 
         return stockDataList;
