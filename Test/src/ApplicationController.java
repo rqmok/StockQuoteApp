@@ -151,7 +151,14 @@ public class ApplicationController extends Application {
         }
 
         // Ask the service for data
-        StockData data = service.getStockData(symbolText);
+        StockData data = null;
+        try {
+            data = service.getStockData(symbolText);
+        } catch (Exception e) {
+            // Catch any thrown exceptions
+            System.out.println(e.getMessage());
+            return;
+        }
         // Check if data was received
         if (data == null) {
             System.out.println("ApplicationController: service return null data.");

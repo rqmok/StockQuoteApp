@@ -17,10 +17,22 @@ public class StockQuoteWSAdapter implements StockService {
         SQPort = SQservice.getStockQuoteWSSOAP11PortHttp();
     }
 
-    public StockData getStockData(String symbol) {
+    public StockData getStockData(String symbol) throws Exception {
 
         // Get quote data from service
         List quoteData = SQPort.getQuote(symbol);
+
+        // Check if the symbol exists or not
+        if (quoteData.get(INDEX_LAST_TRADE).toString().contains("Unset")
+                && quoteData.get(INDEX_DATE).toString().contains("Unset")) {
+            throw new Exception(quoteData.get(INDEX_SYMBOL).toString() + " cannot be found!");
+        }
+
+        // Check if an internal error has occured
+        // There should be less than 4 elements in the returned array if internal error has occurred
+        if (quoteData.size() < 4) {
+            throw new Exception(quoteData.get(INDEX_SYMBOL).toString());
+        }
 
         // Create a new StockData object
         StockData data = new StockData(
