@@ -12,7 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 
-public class ApplicationController extends Application {
+public class ApplicationController extends Application implements ApplicationControllerInterface {
 
     Stage window;
     TableView<StockData> mainTable;
@@ -126,5 +126,10 @@ public class ApplicationController extends Application {
     public ObservableList<StockData> getAllStockData(){
         ObservableList<StockData> stockData = FXCollections.observableArrayList();
         return stockData;
+    }
+
+    @Override
+    public void reloadData() {
+
     }
 }
