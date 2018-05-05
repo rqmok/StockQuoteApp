@@ -14,10 +14,10 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class ApplicationController extends Application implements ApplicationControllerInterface {
+public class ApplicationController extends Application {
 
     Stage window;
-    TableView<StockData> mainTable;
+    TableView<Monitor> mainTable;
 
     //declare new variable of type TextField. This is what we will provide users to input data
     TextField stockSymbolTextField;
@@ -28,14 +28,17 @@ public class ApplicationController extends Application implements ApplicationCon
     // List of available stock services
     private ArrayList<StockService> services = new ArrayList<>();
 
+    // Keep a record of all Monitors
+    private ArrayList<Monitor> monitors = new ArrayList<>();
+
     public static void main(String[] args) {
         launch(args);
     }
 
     // Helper function for creating a new column for the table view
-    private TableColumn<StockData, String> createTableColumn(String title, String property) {
+    private TableColumn<Monitor, String> createTableColumn(String title, String property) {
         // Create a new column
-        TableColumn<StockData, String> column = new TableColumn<>(title);
+        TableColumn<Monitor, String> column = new TableColumn<>(title);
         column.setMinWidth(200);
         // The property to get from StockData object
         column.setCellValueFactory(new PropertyValueFactory<>(property));
@@ -56,13 +59,13 @@ public class ApplicationController extends Application implements ApplicationCon
 
         // Make columns
         // Stock Symbol
-        TableColumn<StockData, String> symbolColumn = createTableColumn("Stock Symbol", "symbol");
+        TableColumn<Monitor, String> symbolColumn = createTableColumn("Stock Symbol", "symbol");
         // Last Trade
-        TableColumn<StockData, String> tradeColumn = createTableColumn("Last Trade", "lastTrade");
+        TableColumn<Monitor, String> tradeColumn = createTableColumn("Last Trade", "lastTrade");
         // Date
-        TableColumn<StockData, String> dateColumn = createTableColumn("Date", "date");
+        TableColumn<Monitor, String> dateColumn = createTableColumn("Date", "date");
         // Time
-        TableColumn<StockData, String> timeColumn = createTableColumn("Time", "time");
+        TableColumn<Monitor, String> timeColumn = createTableColumn("Time", "time");
 
         //feed our observable list into the table
         //mainTable.setItems(getAllStockData());
@@ -170,26 +173,28 @@ public class ApplicationController extends Application implements ApplicationCon
         }
 
         // Create a new monitor
-        Monitor monitor = new StockQuoteWSMonitor(this);
+        Monitor monitor = new StockQuoteWSMonitor();
+        // Add the monitor to array list
+        monitors.add(monitor);
 
-        // Assign monitor to the Stock
-        stock.addMonitor(monitor);
+        // Assign the stock to the monitor
+        monitor.setStock(stock);
 
         reloadData();
-
-        for (Stock currentStock: stocks) {
-            System.out.println(currentStock.getStockData().getSymbol());
-        }
     }
 
     //Function for deleting tracker
     public void deleteMonitor() {
         //Two variables, one for storing the tracker selected by the user and the other stores all the trackers
         //This allows us to delete any trackers from the table that are selected
-        ObservableList<StockData> selectedTracker, allTrackers;
+        ObservableList<Monitor> selectedTracker, allTrackers;
         allTrackers = mainTable.getItems();
         //Get item selected by user
         selectedTracker = mainTable.getSelectionModel().getSelectedItems();
+
+        for (Monitor selectedMonitor : selectedTracker) {
+            monitors.remove(selectedMonitor);
+        }
 
         //For every product selected, delete from the table
         selectedTracker.forEach(allTrackers::remove);
@@ -198,22 +203,19 @@ public class ApplicationController extends Application implements ApplicationCon
 
     //This is our observable list filled with StockData objects. Our table will be display this data and change to
     //reflect any changes made to this data
-    public ObservableList<StockData> getAllStockData(){
-        ObservableList<StockData> stockDataList = FXCollections.observableArrayList();
+    public ObservableList<Monitor> getAllStockData(){
+        ObservableList<Monitor> stockDataList = FXCollections.observableArrayList();
 
-        for (Stock stock : stocks) {
-            for (Monitor monitor : stock.getAllMonitors()) {
-                stockDataList.add(stock.getStockData());
-            }
+        for (Monitor monitor : monitors) {
+            stockDataList.add(monitor);
         }
 
         return stockDataList;
     }
 
-    @Override
     public void reloadData() {
         // Get current data
-        ObservableList<StockData> stockDataList = getAllStockData();
+        ObservableList<Monitor> stockDataList = getAllStockData();
 
         mainTable.setItems(stockDataList);
     }
