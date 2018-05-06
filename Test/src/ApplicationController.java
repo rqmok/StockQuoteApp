@@ -81,6 +81,8 @@ public class ApplicationController extends Application implements UpdateStockDat
 
         //Create button for adding new stock tracker
         Button stockAddButton = new Button("Add New Stock");
+        //Map the add stock button to enter
+        stockAddButton.setDefaultButton(true);
         //Define action for clicking button
         stockAddButton.setOnAction(e -> addNewMonitor());
 
