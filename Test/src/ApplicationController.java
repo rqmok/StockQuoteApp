@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.geometry.Insets;
@@ -100,6 +101,7 @@ public class ApplicationController extends Application implements UpdateStockDat
         //Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
         VBox vBox = new VBox();
         vBox.getChildren().addAll(mainTable, hBox);
+        vBox.setVgrow(mainTable, Priority.ALWAYS);
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
@@ -135,7 +137,7 @@ public class ApplicationController extends Application implements UpdateStockDat
 
     //Function for adding a new tracker
     public void addNewMonitor(){
-        // Get test from textfield
+        // Get text from textfield
         String symbolText = stockSymbolTextField.getText();
 
         //Clear the text field
