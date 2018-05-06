@@ -171,9 +171,9 @@ m2=1</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>490</x>
-      <y>310</y>
+      <y>300</y>
       <w>350</w>
-      <h>230</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>ApplicationController
 --
@@ -190,7 +190,7 @@ m2=1</panel_attributes>
 + deleteMonitor(): void
 + getAllStockData(): ObservableList&lt;Monitor&gt;
 + reloadData(): void
-</panel_attributes>
++ updateStockData(): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -210,14 +210,14 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>530</y>
+      <y>540</y>
       <w>390</w>
-      <h>110</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=0..*
 m2=1</panel_attributes>
-    <additional_attributes>10.0;90.0;10.0;50.0;370.0;50.0;370.0;10.0</additional_attributes>
+    <additional_attributes>10.0;80.0;10.0;40.0;370.0;40.0;370.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -225,12 +225,12 @@ m2=1</panel_attributes>
       <x>550</x>
       <y>210</y>
       <w>50</w>
-      <h>120</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=0..*
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -244,5 +244,71 @@ m2=1</panel_attributes>
 m1=1
 m2=0..*</panel_attributes>
     <additional_attributes>10.0;160.0;10.0;110.0;250.0;110.0;250.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>950</x>
+      <y>230</y>
+      <w>210</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+UpdateStockDataDelegate
+--
++ updateStock(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>830</x>
+      <y>300</y>
+      <w>250</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>230.0;10.0;230.0;100.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>810</x>
+      <y>590</y>
+      <w>390</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>StockUpdaterClock
+--
+- updateStockDataDelegate: UpdateStockDataDelegate
+- intervalInSeconds: long
+--
++ beginUpdates(): void
++ StockUpdaterClock(UpdateStockDataDelegate, long)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1100</x>
+      <y>300</y>
+      <w>30</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>830</x>
+      <y>450</y>
+      <w>190</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..*
+m2=1</panel_attributes>
+    <additional_attributes>150.0;140.0;150.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
