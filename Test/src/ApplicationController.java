@@ -12,15 +12,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class ApplicationController extends Application {
+public class ApplicationController extends Application implements UpdateStockDataDelegate {
 
-    Stage window;
-    TableView<Monitor> mainTable;
+    private Stage window;
+    private TableView<Monitor> mainTable;
 
     //declare new variable of type TextField. This is what we will provide users to input data
-    TextField stockSymbolTextField;
+    private TextField stockSymbolTextField;
 
     // List of stocks
     private ArrayList<Stock> stocks = new ArrayList<>();
@@ -104,6 +105,10 @@ public class ApplicationController extends Application {
         window.setScene(scene);
         window.show();
 
+        // Create a new updater
+        StockUpdaterClock updater = new StockUpdaterClock(this, 5 * 60);
+        // start the updater
+        updater.beginUpdates();
     }
 
     // Helper function to find a stock
@@ -225,5 +230,27 @@ public class ApplicationController extends Application {
         ObservableList<Monitor> stockDataList = getAllStockData();
 
         mainTable.setItems(stockDataList);
+    }
+
+    public void updateStockData() {
+        // Go through each stock
+        for (Stock stock : stocks) {
+            // use stock service to get new data
+            StockService service = stock.getStockService();
+            StockData data = null;
+            try {
+                data = service.getStockData(stock.getStockData().getSymbol());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            // Update it in the stock
+            stock.setStockData(data);
+        }
+
+        // Finally, reload all table view data
+        this.reloadData();
+
+        System.out.println("Updated at " + LocalDateTime.now().toString());
     }
 }
