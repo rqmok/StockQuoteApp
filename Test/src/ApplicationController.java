@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.collections.FXCollections;
@@ -15,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 import java.time.LocalDateTime;
@@ -56,6 +58,15 @@ public class ApplicationController extends Application implements UpdateStockDat
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         window.setTitle("Stock Tracker App");
+
+        //Ensure that the progam terminates upon closing the window
+        window.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
 
         // Create a new service
         services.add(new StockQuoteWSAdapter());
