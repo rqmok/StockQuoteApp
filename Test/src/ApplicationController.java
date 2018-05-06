@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -6,11 +7,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -100,6 +105,21 @@ public class ApplicationController extends Application implements UpdateStockDat
         //Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
         VBox vBox = new VBox();
         vBox.getChildren().addAll(mainTable, hBox);
+        vBox.setVgrow(mainTable, Priority.ALWAYS);
+
+
+        //Create an event handler to handle key presses. This allows the user to add stock monitors with the ENTER key
+        // and delete stock monitors with he DELETE key
+        vBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()){
+                    case DELETE: deleteMonitor();
+                    case ENTER: addNewMonitor();
+
+                }
+            }
+        });
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
@@ -135,7 +155,7 @@ public class ApplicationController extends Application implements UpdateStockDat
 
     //Function for adding a new tracker
     public void addNewMonitor(){
-        // Get test from textfield
+        // Get text from textfield
         String symbolText = stockSymbolTextField.getText();
 
         //Clear the text field
