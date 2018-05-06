@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>40</x>
-      <y>370</y>
+      <y>360</y>
       <w>260</w>
       <h>140</h>
     </coordinates>
@@ -24,7 +24,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>830</x>
-      <y>60</y>
+      <y>50</y>
       <w>390</w>
       <h>90</h>
     </coordinates>
@@ -40,7 +40,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>40</x>
-      <y>620</y>
+      <y>610</y>
       <w>310</w>
       <h>80</h>
     </coordinates>
@@ -54,7 +54,7 @@ StockService
     <id>UMLClass</id>
     <coordinates>
       <x>40</x>
-      <y>60</y>
+      <y>50</y>
       <w>290</w>
       <h>190</h>
     </coordinates>
@@ -76,7 +76,7 @@ StockService
     <id>Relation</id>
     <coordinates>
       <x>140</x>
-      <y>240</y>
+      <y>230</y>
       <w>30</w>
       <h>150</h>
     </coordinates>
@@ -89,7 +89,7 @@ m2=1</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>480</x>
-      <y>630</y>
+      <y>620</y>
       <w>300</w>
       <h>70</h>
     </coordinates>
@@ -102,7 +102,7 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>340</x>
-      <y>650</y>
+      <y>640</y>
       <w>160</w>
       <h>30</h>
     </coordinates>
@@ -113,7 +113,7 @@ m2=1</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>400</x>
-      <y>60</y>
+      <y>50</y>
       <w>400</w>
       <h>160</h>
     </coordinates>
@@ -136,7 +136,7 @@ Monitor
     <id>Relation</id>
     <coordinates>
       <x>790</x>
-      <y>120</y>
+      <y>110</y>
       <w>60</w>
       <h>30</h>
     </coordinates>
@@ -147,7 +147,7 @@ Monitor
     <id>Relation</id>
     <coordinates>
       <x>290</x>
-      <y>380</y>
+      <y>370</y>
       <w>220</w>
       <h>130</h>
     </coordinates>
@@ -160,7 +160,7 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>0</x>
-      <y>240</y>
+      <y>230</y>
       <w>210</w>
       <h>500</h>
     </coordinates>
@@ -171,7 +171,7 @@ m2=1</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>490</x>
-      <y>300</y>
+      <y>290</y>
       <w>350</w>
       <h>250</h>
     </coordinates>
@@ -197,7 +197,7 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>140</x>
-      <y>500</y>
+      <y>490</y>
       <w>110</w>
       <h>140</h>
     </coordinates>
@@ -210,7 +210,7 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>540</y>
+      <y>530</y>
       <w>390</w>
       <h>100</h>
     </coordinates>
@@ -223,7 +223,7 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>550</x>
-      <y>210</y>
+      <y>200</y>
       <w>50</w>
       <h>110</h>
     </coordinates>
@@ -236,7 +236,7 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>220</x>
-      <y>210</y>
+      <y>200</y>
       <w>290</w>
       <h>180</h>
     </coordinates>
@@ -249,7 +249,7 @@ m2=0..*</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>950</x>
-      <y>230</y>
+      <y>220</y>
       <w>210</w>
       <h>80</h>
     </coordinates>
@@ -263,7 +263,7 @@ UpdateStockDataDelegate
     <id>Relation</id>
     <coordinates>
       <x>830</x>
-      <y>300</y>
+      <y>290</y>
       <w>250</w>
       <h>120</h>
     </coordinates>
@@ -274,7 +274,7 @@ UpdateStockDataDelegate
     <id>UMLClass</id>
     <coordinates>
       <x>810</x>
-      <y>590</y>
+      <y>580</y>
       <w>390</w>
       <h>110</h>
     </coordinates>
@@ -291,18 +291,20 @@ UpdateStockDataDelegate
     <id>Relation</id>
     <coordinates>
       <x>1100</x>
-      <y>300</y>
+      <y>290</y>
       <w>30</w>
       <h>310</h>
     </coordinates>
-    <panel_attributes>lt=&lt;.</panel_attributes>
+    <panel_attributes>lt=&lt;-
+m1=1
+m2=1</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;290.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>830</x>
-      <y>450</y>
+      <y>440</y>
       <w>190</w>
       <h>160</h>
     </coordinates>
