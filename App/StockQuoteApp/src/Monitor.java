@@ -26,9 +26,7 @@ public abstract class Monitor {
     public StringProperty symbolProperty() {
         return new SimpleStringProperty(this.stock.getStockData().getSymbol());
     }
-    public StringProperty lastTradeProperty() {
-        return new SimpleStringProperty(this.stock.getStockData().getLastTrade());
-    }
+    public StringProperty lastTradeProperty() { return new SimpleStringProperty(this.stock.getStockData().getLastTrade()); }
     public StringProperty dateProperty() {
         return new SimpleStringProperty(this.stock.getStockData().getDate());
     }

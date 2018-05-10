@@ -1,4 +1,4 @@
-public class StockUpdaterClock {
+public class StockUpdaterClock implements Runnable {
 
     private UpdateStockDataDelegate updateStockDataDelegate;
 
@@ -10,20 +10,16 @@ public class StockUpdaterClock {
         this.intervalInSeconds = intervalInSeconds;
     }
 
-    public void beginUpdates() {
-        // Use an asynchronous thread to update.
-        // It it is not asynchronous, the entire program freezes because of the while loop
-        new Thread(() -> {
-            while (true) {
-                updateStockDataDelegate.updateStockData();
+    public void run() {
+        while (true) {
+            updateStockDataDelegate.updateStockData();
 
-                try {
-                    Thread.sleep(intervalInSeconds * 1000);
-                } catch (InterruptedException e) {
-                    continue;
-                }
+            try {
+                Thread.sleep(intervalInSeconds * 1000);
+            } catch (InterruptedException e) {
+                continue;
             }
-        }).start();
+        }
     }
 
 }

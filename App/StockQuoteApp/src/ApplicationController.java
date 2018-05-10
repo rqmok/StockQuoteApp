@@ -136,10 +136,18 @@ public class ApplicationController extends Application implements UpdateStockDat
         window.setScene(scene);
         window.show();
 
+        /*
         // Create a new updater
         StockUpdaterClock updater = new StockUpdaterClock(this, 5 * 60);
         // start the updater
         updater.beginUpdates();
+        */
+
+        // Create a new update
+        StockUpdaterClock updater = new StockUpdaterClock(this, 5);
+        // Create a new thread
+        Thread t = new Thread(updater);
+        t.start();
     }
 
     // Helper function to find a stock
@@ -241,6 +249,9 @@ public class ApplicationController extends Application implements UpdateStockDat
 
         //For every product selected, delete from the table
         selectedTracker.forEach(allTrackers::remove);
+
+        // refresh the table
+        reloadData();
     }
 
 
@@ -250,6 +261,8 @@ public class ApplicationController extends Application implements UpdateStockDat
         ObservableList<Monitor> stockDataList = FXCollections.observableArrayList();
 
         for (Monitor monitor : monitors) {
+            monitor.setStock(monitor.getStock());
+
             stockDataList.add(monitor);
         }
 
@@ -260,28 +273,20 @@ public class ApplicationController extends Application implements UpdateStockDat
         // Get current data
         ObservableList<Monitor> stockDataList = getAllStockData();
 
+        // Clear items first to ensure the data is reloaded in the table
+        mainTable.getItems().clear();
         mainTable.setItems(stockDataList);
     }
 
     public void updateStockData() {
         // Go through each stock
         for (Stock stock : stocks) {
-            // use stock service to get new data
-            StockService service = stock.getStockService();
-            StockData data = null;
-            try {
-                data = service.getStockData(stock.getStockData().getSymbol());
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-
-            // Update it in the stock
-            stock.setStockData(data);
+            stock.updateStockData();
         }
 
         // Finally, reload all table view data
         this.reloadData();
 
-        System.out.println("Updated at " + LocalDateTime.now().toString());
+        System.out.println("Updated at " + LocalDateTime.now().toLocalTime().toString());
     }
 }

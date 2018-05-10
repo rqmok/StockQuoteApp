@@ -45,4 +45,17 @@ public class Stock {
         this.stockService = service;
     }
 
+    public void updateStockData() {
+        if (this.stockService == null)
+            return;
+
+        StockService service = this.getStockService();
+        String symbol = this.getStockData().getSymbol();
+        try {
+            this.setStockData(service.getStockData(symbol));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
