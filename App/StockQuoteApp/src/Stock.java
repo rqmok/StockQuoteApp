@@ -1,34 +1,45 @@
+import java.util.ArrayList;
 
 public class Stock {
 
-    private StockData data;
+    private ArrayList<StockData> data = new ArrayList<>();
     private StockService stockService;
 
-    public Stock(StockData stockData) {
-        if (stockData == null) {
-            System.console().printf("Stock: Provided null StockData to constructor.");
+    public Stock(StockData data) {
+        if (data == null) {
+            System.out.println("Stock: Provided null StockData to constructor.");
             return;
         }
 
-        this.data = stockData;
+        this.data.add(data);
     }
 
-    public StockData getStockData() {
-        // Create a copy of the stock data
-        StockData retStockData = new StockData(
-                this.data.getSymbol(),
-                this.data.getLastTrade(),
-                this.data.getDate(),
-                this.data.getTime()
-        );
+    public Stock(StockData data, StockService service) {
+        if (data == null) {
+            System.out.println("Stock: Provided null StockData to constructor.");
+            return;
+        }
 
-        // Return the copy so this.data cannot be modified.
-        return retStockData;
+        if (service == null) {
+            System.out.println("Stock: Provided null StockService to constructor.");
+            return;
+        }
+
+        this.data.add(data);
+        this.stockService = service;
     }
 
-    public void setStockData(StockData stockData) {
-        if (stockData != null) {
-            this.data = stockData;
+    public ArrayList<StockData> getStockData() {
+        return data;
+    }
+
+    public StockData getLastStockData() {
+        return this.data.get(this.data.size() - 1);
+    }
+
+    public void addStockData(StockData data) {
+        if (data != null) {
+            this.data.add(data);
         }
     }
 
@@ -50,9 +61,9 @@ public class Stock {
             return;
 
         StockService service = this.getStockService();
-        String symbol = this.getStockData().getSymbol();
+        String symbol = this.getLastStockData().getQuoteData().get(0);
         try {
-            this.setStockData(service.getStockData(symbol));
+            this.addStockData(service.getStockData(symbol));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

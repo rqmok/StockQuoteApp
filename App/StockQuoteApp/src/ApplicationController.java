@@ -2,64 +2,43 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class ApplicationController extends Application implements UpdateStockDataDelegate {
 
     private Stage window;
-    private TableView<Monitor> mainTable;
 
     //declare new variable of type TextField. This is what we will provide users to input data
     private TextField stockSymbolTextField;
 
-    // List of stocks
-    private ArrayList<Stock> stocks = new ArrayList<>();
+    // Stores all out data
+    Model model = new Model();
 
-    // List of available stock services
-    private ArrayList<StockService> services = new ArrayList<>();
-
-    // Keep a record of all Monitors
-    private ArrayList<Monitor> monitors = new ArrayList<>();
+    // Stores all controllers
+    ArrayList<Controller> controllers = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    // Helper function for creating a new column for the table view
-    private TableColumn<Monitor, String> createTableColumn(String title, String property) {
-        // Create a new column
-        TableColumn<Monitor, String> column = new TableColumn<>(title);
-        column.setMinWidth(200);
-        // The property to get from StockData object
-        column.setCellValueFactory(new PropertyValueFactory<>(property));
-
-        return column;
-    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         window.setTitle("Stock Tracker App");
 
-        //Ensure that the progam terminates upon closing the window
+        // Ensure that the program terminates upon closing the window
         window.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
@@ -68,58 +47,42 @@ public class ApplicationController extends Application implements UpdateStockDat
             }
         });
 
-        // Create a new service
-        services.add(new StockQuoteWSAdapter());
-
-        // Create new table
-        mainTable = new TableView<>();
-
-        // Make columns
-        // Stock Symbol
-        TableColumn<Monitor, String> symbolColumn = createTableColumn("Stock Symbol", "symbol");
-        // Last Trade
-        TableColumn<Monitor, String> tradeColumn = createTableColumn("Last Trade", "lastTrade");
-        // Date
-        TableColumn<Monitor, String> dateColumn = createTableColumn("Date", "date");
-        // Time
-        TableColumn<Monitor, String> timeColumn = createTableColumn("Time", "time");
-
-        //feed our observable list into the table
-        //mainTable.setItems(getAllStockData());
-        //Put the columns into our table
-        mainTable.getColumns().addAll(symbolColumn, tradeColumn, dateColumn, timeColumn);
-
-        //Create TextField for entering stock names
+        // Create TextField for entering stock names
         stockSymbolTextField = new TextField();
         stockSymbolTextField.setPromptText("Enter Stock Symbol");
         stockSymbolTextField.setMinWidth(100);
 
-        //Create button for adding new stock tracker
+        // Create button for adding new stock tracker
         Button stockAddButton = new Button("Add New Stock");
-        //Define action for clicking button
+        // Define action for clicking button
         stockAddButton.setOnAction(e -> addNewMonitor());
 
-        //Create button for Deleting stock tracker
+        // Create button for Deleting stock tracker
         Button stockDeleteButton = new Button("Delete Stock");
-        //Define action for clicking button
+        // Define action for clicking button
         stockDeleteButton.setOnAction(e -> deleteMonitor());
 
-        //Create new HBox for buttons and text field
+        // Create new HBox for buttons and text field
         HBox hBox = new HBox();
-        //Creating Insets for that the items are not right on the border of the HBox
+        // Creating Insets for that the items are not right on the border of the HBox
         hBox.setPadding(new Insets(10,10,10,10));
-        //Set spacing between items in the HBox
+        // Set spacing between items in the HBox
         hBox.setSpacing(10);
-        //Add our items to the HBox
+        // Add our items to the HBox
         hBox.getChildren().addAll(stockSymbolTextField,stockAddButton,stockDeleteButton);
 
-        //Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
+        // Create a new table view controller
+        TableViewController tableViewController = new TableViewController(model.getFieldNames());
+        controllers.add(tableViewController);
+        TableView<Monitor> tableView = tableViewController.getTableView();
+
+        // Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(mainTable, hBox);
-        vBox.setVgrow(mainTable, Priority.ALWAYS);
+        vBox.getChildren().addAll(tableView, hBox);
+        vBox.setVgrow(tableView, Priority.ALWAYS);
 
 
-        //Create an event handler to handle key presses. This allows the user to add stock monitors with the ENTER key
+        // Create an event handler to handle key presses. This allows the user to add stock monitors with the ENTER key
         // and delete stock monitors with he DELETE key
         vBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -136,13 +99,6 @@ public class ApplicationController extends Application implements UpdateStockDat
         window.setScene(scene);
         window.show();
 
-        /*
-        // Create a new updater
-        StockUpdaterClock updater = new StockUpdaterClock(this, 5 * 60);
-        // start the updater
-        updater.beginUpdates();
-        */
-
         // Create a new update
         StockUpdaterClock updater = new StockUpdaterClock(this, 5);
         // Create a new thread
@@ -150,143 +106,55 @@ public class ApplicationController extends Application implements UpdateStockDat
         t.start();
     }
 
-    // Helper function to find a stock
-    private Stock findStock(String stockSymbol) {
-        for (Stock stock : stocks) {
-            if (stock.getStockData().getSymbol().contains(stockSymbol)) {
-                return stock;
-            }
-        }
+    // Function for adding a new tracker
+    public void addNewMonitor() {
+        // Get symbol text
+        String symbol = stockSymbolTextField.getText();
 
-        return null;
-    }
-
-    // Helper function to find a service
-    private StockService findService(StockService.serviceTypes serviceType) {
-        for (StockService currentService : services) {
-            if (currentService.getServiceType() == serviceType) {
-                return currentService;
-            }
-        }
-
-        return null;
-    }
-
-    //Function for adding a new tracker
-    public void addNewMonitor(){
-        // Get text from textfield
-        String symbolText = stockSymbolTextField.getText();
-
-        //Clear the text field
+        // Remove text from text field, ready for new input
         stockSymbolTextField.clear();
 
-        // Check for empty text field
-        if (symbolText == null || symbolText.length() == 0) {
-            System.out.println("ApplicationController: symbol text is null");
-            return;
-        }
+        // Ask model to add monitor
+        model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE, Monitor.monitorTypes.TABLE_MONITOR);
 
-        // First check the service for data
-        StockService service = findService(StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE);
-        // Check if service was found.
-        if (service == null) {
-            System.out.println("ApplicationController: service not found");
-            return;
-        }
-
-        // Ask the service for data
-        StockData data = null;
-        try {
-            data = service.getStockData(symbolText);
-        } catch (Exception e) {
-            // Catch any thrown exceptions
-            System.out.println(e.getMessage());
-            return;
-        }
-        // Check if data was received
-        if (data == null) {
-            System.out.println("ApplicationController: service return null data.");
-            return;
-        }
-
-        // Data was successfully retrieved.
-        // Check if stock already exists
-        Stock stock = findStock(symbolText);
-        if (stock == null) {
-            // Create a new stock
-            stock = new Stock(data);
-
-            // Keep track of stock
-            stocks.add(stock);
-
-            // attach the stock service
-            stock.setStockService(service);
-        }
-
-        // Create a new monitor
-        Monitor monitor = new StockQuoteWSMonitor();
-        // Add the monitor to array list
-        monitors.add(monitor);
-
-        // Assign the stock to the monitor
-        monitor.setStock(stock);
-
-        reloadData();
+        // Update the controllers
+        this.updateControllers();
     }
 
-    //Function for deleting tracker
+    // Function for deleting tracker
     public void deleteMonitor() {
-        //Two variables, one for storing the tracker selected by the user and the other stores all the trackers
-        //This allows us to delete any trackers from the table that are selected
-        ObservableList<Monitor> selectedTracker, allTrackers;
-        allTrackers = mainTable.getItems();
-        //Get item selected by user
-        selectedTracker = mainTable.getSelectionModel().getSelectedItems();
+        // Get selected monitors
+        for (Controller controller : controllers) {
+            ArrayList<Monitor> selectedMonitors = controller.getSelectedMonitors();
 
-        for (Monitor selectedMonitor : selectedTracker) {
-            monitors.remove(selectedMonitor);
+            // Check if any monitors were selected
+            if (selectedMonitors == null || selectedMonitors.size() < 1) {
+                return;
+            }
+
+            // Remove the selected monitors
+            for (Monitor monitor : selectedMonitors) {
+                // Ask the model to remove the monitor
+                model.removeMonitor(monitor);
+            }
         }
 
-        //For every product selected, delete from the table
-        selectedTracker.forEach(allTrackers::remove);
-
-        // refresh the table
-        reloadData();
+        // Update all view controllers
+        this.updateControllers();
     }
 
-
-    //This is our observable list filled with StockData objects. Our table will be display this data and change to
-    //reflect any changes made to this data
-    public ObservableList<Monitor> getAllStockData(){
-        ObservableList<Monitor> stockDataList = FXCollections.observableArrayList();
-
-        for (Monitor monitor : monitors) {
-            monitor.setStock(monitor.getStock());
-
-            stockDataList.add(monitor);
+    public void updateControllers() {
+        // Update all view controllers
+        for (Controller controller : controllers) {
+            controller.update(model.getMonitors());
         }
-
-        return stockDataList;
-    }
-
-    public void reloadData() {
-        // Get current data
-        ObservableList<Monitor> stockDataList = getAllStockData();
-
-        // Clear items first to ensure the data is reloaded in the table
-        mainTable.getItems().clear();
-        mainTable.setItems(stockDataList);
     }
 
     public void updateStockData() {
-        // Go through each stock
-        for (Stock stock : stocks) {
-            stock.updateStockData();
-        }
+        // Ask the model to update data
+        model.updateStockData();
 
-        // Finally, reload all table view data
-        this.reloadData();
-
-        System.out.println("Updated at " + LocalDateTime.now().toLocalTime().toString());
+        // Updater the controllers
+        this.updateControllers();
     }
 }

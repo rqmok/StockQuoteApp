@@ -1,29 +1,24 @@
+import java.util.ArrayList;
 
 public class StockData {
 
-    private String symbol;
-    private String lastTrade;
-    private String date;
-    private String time;
+    private ArrayList<String> fieldNames;
+    private ArrayList<String> quoteData;
 
-    public StockData(String symbol, String lastTrade, String date, String time) {
-        // Check no null values
-        if (symbol == null || lastTrade == null || date == null || time == null) {
-            // Print message and do not create an object
-            System.console().printf("StockData: Null value provided in constructor.");
+    public StockData(ArrayList<String> fieldNames, ArrayList<String> quoteData) {
+        // Check for empty parameters
+        if (fieldNames.size() < 0 || quoteData.size() < 0)
             return;
-        }
 
-        // Values are fine. Create the object.
-        this.symbol = symbol;
-        this.lastTrade = lastTrade;
-        this.date = date;
-        this.time = time;
+        this.fieldNames = fieldNames;
+        this.quoteData = quoteData;
     }
 
-    public String getSymbol() { return this.symbol; }
-    public String getLastTrade() { return this.lastTrade; }
-    public String getDate() { return this.date; }
-    public String getTime() { return this.time; }
+    public ArrayList<String> getFieldNames() {
+        return fieldNames;
+    }
 
+    public ArrayList<String> getQuoteData() {
+        return quoteData;
+    }
 }

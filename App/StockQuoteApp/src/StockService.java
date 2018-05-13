@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public interface StockService {
 
@@ -8,5 +9,7 @@ public interface StockService {
     StockData getStockData(String symbol) throws Exception;
 
     public serviceTypes getServiceType();
+
+    public ArrayList<String> getFieldNames();
 
 }

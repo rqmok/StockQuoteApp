@@ -1,14 +1,13 @@
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
-public abstract class Monitor {
+public class Monitor {
 
     public enum monitorTypes {
-        STOCK_QUOTE_WS_MONITOR
+        TABLE_MONITOR,
+        GRAPH_MONITOR
     }
 
     private Stock stock;
-    protected monitorTypes monitorType;
+    private monitorTypes monitorType;
 
     public monitorTypes getMonitorType() {
         return this.monitorType;
@@ -22,16 +21,13 @@ public abstract class Monitor {
         }
     }
 
-    // Getters for constructing the table view
-    public StringProperty symbolProperty() {
-        return new SimpleStringProperty(this.stock.getStockData().getSymbol());
+    public Monitor(monitorTypes type) {
+        this.monitorType = type;
     }
-    public StringProperty lastTradeProperty() { return new SimpleStringProperty(this.stock.getStockData().getLastTrade()); }
-    public StringProperty dateProperty() {
-        return new SimpleStringProperty(this.stock.getStockData().getDate());
-    }
-    public StringProperty timeProperty() {
-        return new SimpleStringProperty(this.stock.getStockData().getTime());
+
+    public Monitor(monitorTypes type, Stock stock) {
+        this.monitorType = type;
+        this.setStock(stock);
     }
 
 }
