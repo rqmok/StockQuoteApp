@@ -112,7 +112,7 @@ public class Model {
 
     // Helper function to get field names
     public ArrayList<String> getFieldNames() {
-        StockService service = findService(StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE);
+        StockService service = findService(StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE);
         return service.getFieldNames();
     }
 

@@ -32,7 +32,16 @@ public class TableViewController extends Controller {
             column.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Monitor, String>, ObservableValue<String>>() {
                 @Override
                 public ObservableValue<String> call(TableColumn.CellDataFeatures<Monitor, String> param) {
-                    return new SimpleStringProperty(param.getValue().getStock().getLastStockData().getQuoteData().get(columnIndex));
+                    ArrayList<String> quoteData = param.getValue().getStock().getLastStockData().getQuoteData();
+                    String ret;
+
+                    if (columnIndex > quoteData.size() - 1) {
+                        ret = "N/A";
+                    } else {
+                        ret = quoteData.get(columnIndex);
+                    }
+
+                    return new SimpleStringProperty(ret);
                 }
             });
             tableView.getColumns().add(column);
