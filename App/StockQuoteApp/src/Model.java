@@ -12,9 +12,9 @@ public class Model {
         services = new ArrayList<>();
         monitors = new ArrayList<>();
 
-        // Create new service
-        StockService service = new StockQuoteWSAdapter();
-        services.add(service);
+        // Create new services
+        services.add(new StockQuoteWSAdapter());
+        services.add(new StockQuoteTLSAdapter());
     }
 
     public Monitor addMonitor(String symbol, StockService.serviceTypes serviceType, Monitor.monitorTypes monitorType) {
