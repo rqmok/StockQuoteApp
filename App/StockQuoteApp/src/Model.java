@@ -116,4 +116,10 @@ public class Model {
         return service.getFieldNames();
     }
 
+    // Helper function to get symbols from TLS function
+    public ArrayList<String> getTLSSymbols() {
+        StockService service = findService(StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE);
+        return ((StockQuoteTLSAdapter) service).getSymbols();
+    }
+
 }

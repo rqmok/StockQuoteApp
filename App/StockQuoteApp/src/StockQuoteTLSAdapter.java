@@ -44,4 +44,10 @@ public class StockQuoteTLSAdapter implements StockService {
 
         return new ArrayList<String>(fieldNamesList);
     }
+
+    public ArrayList<String> getSymbols() {
+        List symbolsList = SQPort.getSymbols().getReturn();
+
+        return new ArrayList<String>(symbolsList);
+    }
 }

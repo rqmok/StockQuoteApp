@@ -1,12 +1,13 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -23,6 +24,10 @@ public class ApplicationController extends Application implements UpdateStockDat
 
     //declare new variable of type TextField. This is what we will provide users to input data
     private TextField stockSymbolTextField;
+    // declare a service selection combo box
+    private ComboBox<StockService.serviceTypes> serviceSelectionComboBox;
+    // declare a symbols selection combo box for TLS service
+    private ComboBox<String> symbolSelectionComboBox;
 
     // Stores all out data
     Model model = new Model();
@@ -54,6 +59,33 @@ public class ApplicationController extends Application implements UpdateStockDat
         stockSymbolTextField.setPromptText("Enter Stock Symbol");
         stockSymbolTextField.setMinWidth(100);
 
+        // Create a dropdown for selecting service
+        serviceSelectionComboBox = new ComboBox<>();
+        serviceSelectionComboBox.getItems().setAll(StockService.serviceTypes.values());
+        serviceSelectionComboBox.valueProperty().addListener(new ChangeListener<StockService.serviceTypes>() {
+            @Override
+            public void changed(ObservableValue<? extends StockService.serviceTypes> observable, StockService.serviceTypes oldValue, StockService.serviceTypes newValue) {
+                switch (newValue) {
+                    case STOCK_QUOTE_TLS_SERVICE:
+                        stockSymbolTextField.setDisable(false);
+                        symbolSelectionComboBox.setDisable(false);
+                        break;
+                    case STOCK_QUOTE_WS_SERVICE:
+                        stockSymbolTextField.setDisable(false);
+                        symbolSelectionComboBox.setDisable(true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+        // Create a dropdown for selecting symbol for TLS Service
+        ArrayList<String> TLSSymbols = model.getTLSSymbols();
+        symbolSelectionComboBox = new ComboBox<>();
+        symbolSelectionComboBox.getItems().setAll(TLSSymbols);
+        symbolSelectionComboBox.setValue(TLSSymbols.get(0));
+
         // Create button for adding new stock tracker
         Button stockAddButton = new Button("Add New Stock");
         // Define action for clicking button
@@ -71,7 +103,7 @@ public class ApplicationController extends Application implements UpdateStockDat
         // Set spacing between items in the HBox
         hBox.setSpacing(10);
         // Add our items to the HBox
-        hBox.getChildren().addAll(stockSymbolTextField,stockAddButton,stockDeleteButton);
+        hBox.getChildren().addAll(stockSymbolTextField, serviceSelectionComboBox, symbolSelectionComboBox,stockAddButton,stockDeleteButton);
 
         // Create a new table view controller
         TableViewController tableViewController = new TableViewController(model.getFieldNames());
@@ -116,17 +148,25 @@ public class ApplicationController extends Application implements UpdateStockDat
 
     // Function for adding a new tracker
     public void addNewMonitor() {
-        // Get symbol text
-        String symbol = stockSymbolTextField.getText();
+        if (this.serviceSelectionComboBox.getValue() == StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE) {
 
-        // Remove text from text field, ready for new input
-        stockSymbolTextField.clear();
+            // Get symbol text
+            String symbol = stockSymbolTextField.getText();
 
-        // Ask model to add monitor
-        model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE, Monitor.monitorTypes.TABLE_MONITOR);
+            // Remove text from text field, ready for new input
+            stockSymbolTextField.clear();
 
-        //Test: add of graph type monitor
-        model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE, Monitor.monitorTypes.GRAPH_MONITOR);
+            // Ask model to add monitor
+            model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE, Monitor.monitorTypes.TABLE_MONITOR);
+
+        }
+        else if (this.serviceSelectionComboBox.getValue() == StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE) {
+            // Get symbol text
+            String symbol = symbolSelectionComboBox.getValue();
+
+            // Ask the model to add monitor
+            model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE, Monitor.monitorTypes.GRAPH_MONITOR);
+        }
 
         // Update the controllers
         this.updateControllers();
