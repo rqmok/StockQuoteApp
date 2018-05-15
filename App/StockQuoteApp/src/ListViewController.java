@@ -9,14 +9,16 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
-
+import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class ListViewController extends Controller {
 
     private ListView<LineChart> listView;
     private ArrayList<Monitor> monitorList;
+    Map<String, Monitor> monitorDictionary =new HashMap<String, Monitor>();
     public ListViewController(){
         listView = new ListView<>();
     }
@@ -50,9 +52,11 @@ public class ListViewController extends Controller {
             //Create a line chart and assign it's axis
             LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
             //Give the line chart an ID
-            String chartID = Integer.toBinaryString(i);
-            lineChart.setId(chartID);
+            //String chartID = Integer.toBinaryString(i);
 
+            String chartID = Integer.toString(i);
+            lineChart.setId(chartID);
+            monitorDictionary.put(chartID, graphMonitor);
             //Create a series. We will fill this with data from the StockData class
             XYChart.Series<Number, Number> series = new LineChart.Series<>();
 
@@ -105,9 +109,10 @@ public class ListViewController extends Controller {
     public ArrayList<Monitor> getSelectedMonitors() {
         ArrayList<Monitor> selectedMonitors = new ArrayList<>();
         for (LineChart lineChart : listView.getSelectionModel().getSelectedItems()) {
-            int index = Integer.parseInt(lineChart.getId());
+            String ID = lineChart.getId();
 
-            Monitor monitor = monitorList.get(index);
+            Monitor monitor = monitorDictionary.get(ID);
+
             selectedMonitors.add(monitor);
 
        }
