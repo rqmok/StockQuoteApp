@@ -2,7 +2,9 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -76,9 +78,15 @@ public class ApplicationController extends Application implements UpdateStockDat
         controllers.add(tableViewController);
         TableView<Monitor> tableView = tableViewController.getTableView();
 
+        //Add a ListViewController
+        ListViewController listViewController = new ListViewController();
+        controllers.add(listViewController);
+        ListView<LineChart> listView = listViewController.getListView();
+
+
         // Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(tableView, hBox);
+        vBox.getChildren().addAll(tableView, listView, hBox);
         vBox.setVgrow(tableView, Priority.ALWAYS);
 
 
@@ -116,6 +124,9 @@ public class ApplicationController extends Application implements UpdateStockDat
 
         // Ask model to add monitor
         model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE, Monitor.monitorTypes.TABLE_MONITOR);
+
+        //Test: add of graph type monitor
+        model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE, Monitor.monitorTypes.GRAPH_MONITOR);
 
         // Update the controllers
         this.updateControllers();

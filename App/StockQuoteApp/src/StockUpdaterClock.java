@@ -8,6 +8,7 @@ public class StockUpdaterClock implements Runnable {
     public StockUpdaterClock(UpdateStockDataDelegate updateStockDataDelegate, long intervalInSeconds) {
         this.updateStockDataDelegate = updateStockDataDelegate;
         this.intervalInSeconds = intervalInSeconds;
+
     }
 
     public void run() {
