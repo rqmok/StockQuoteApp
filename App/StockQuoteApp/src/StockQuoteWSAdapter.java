@@ -8,8 +8,6 @@ public class StockQuoteWSAdapter implements StockService {
 
     private serviceTypes serviceType = serviceTypes.STOCK_QUOTE_WS_SERVICE;
 
-    private static final int INDEX_SYMBOL = 0, INDEX_LAST_TRADE = 1, INDEX_DATE = 2, INDEX_TIME = 3;
-
     StockQuoteWS SQservice;
     StockQuoteWSPortType SQPort;
 
@@ -41,10 +39,7 @@ public class StockQuoteWSAdapter implements StockService {
         ArrayList<String> quoteData = new ArrayList<String>(quoteDataList);
 
         // Create a new StockData object
-        StockData data = new StockData(
-                fieldNames,
-                quoteData
-        );
+        StockData data = new StockData(fieldNames, quoteData);
 
         return data;
     }

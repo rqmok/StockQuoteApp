@@ -2,14 +2,15 @@ import java.util.ArrayList;
 
 public interface StockService {
 
-    public enum serviceTypes {
-        STOCK_QUOTE_WS_SERVICE
+    enum serviceTypes {
+        STOCK_QUOTE_WS_SERVICE,
+        STOCK_QUOTE_TLS_SERVICE
     }
 
     StockData getStockData(String symbol) throws Exception;
 
-    public serviceTypes getServiceType();
+    serviceTypes getServiceType();
 
-    public ArrayList<String> getFieldNames();
+    ArrayList<String> getFieldNames();
 
 }
