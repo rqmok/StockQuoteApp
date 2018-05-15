@@ -17,25 +17,19 @@ public class ListViewController extends Controller {
 
     private ListView<LineChart> listView;
     private ArrayList<Monitor> monitorList;
-
     public ListViewController(){
-
+        listView = new ListView<>();
     }
 
-    @Override
+
     public void update(ArrayList<Monitor> monitors) {
         if (monitors == null) {
             return;
         }
 
-        //Empty out the list of monitors
-        monitorList.clear();
-
         monitorList = new ArrayList<>();
 
-        listView = new ListView<>();
-
-        //Create an observable list of LineCharts. This is what our listiew will display
+        //Create an observable list of LineCharts. This is what our listview will display
         ObservableList<LineChart> stockCharts = FXCollections.observableArrayList();
 
         //Make a list of all the graph monitors
@@ -55,7 +49,6 @@ public class ListViewController extends Controller {
             NumberAxis yAxis = new NumberAxis();
             //Create a line chart and assign it's axis
             LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-
             //Give the line chart an ID
             String chartID = Integer.toBinaryString(i);
             lineChart.setId(chartID);
@@ -69,8 +62,10 @@ public class ListViewController extends Controller {
             for(StockData stockData: stockDataList){
                 ArrayList<String> quoteData = stockData.getQuoteData();
                 ArrayList<String> fieldData = stockData.getFieldNames();
-                int x = Integer.parseInt(quoteData.get(3));
-                int y = Integer.parseInt(quoteData.get(1));
+                //int x = Integer.parseInt(quoteData.get(3));
+                //int y = Integer.parseInt(quoteData.get(1));
+                int x = toMins(quoteData.get(3));
+                int y = Double.valueOf(quoteData.get(1)).intValue();
                 String title = fieldData.get(0);
                 String xCord = fieldData.get(3);
                 String yCord = fieldData.get(1);
@@ -97,9 +92,26 @@ public class ListViewController extends Controller {
     public ListView<LineChart> getListView(){return listView;
     }
 
-    @Override
-    public ArrayList<Monitor> getSelectedMonitors() {
+    //THIS IS A TEMPORARY FUNCTION FOR CONVERTING TO THE TIME FORMAT TO AN INT
+    private static int toMins(String s) {
+        String[] hourMin = s.split(":");
+        int hour = Integer.parseInt(hourMin[0]);
+        int mins = Integer.parseInt(hourMin[1]);
+        int hoursInMins = hour * 60;
+        return hoursInMins + mins;
+    }
 
-        return null;
+
+    public ArrayList<Monitor> getSelectedMonitors() {
+        ArrayList<Monitor> selectedMonitors = new ArrayList<>();
+        for (LineChart lineChart : listView.getSelectionModel().getSelectedItems()) {
+            int index = Integer.parseInt(lineChart.getId());
+
+            Monitor monitor = monitorList.get(index);
+            selectedMonitors.add(monitor);
+
+       }
+
+            return monitorList;
     }
 }
