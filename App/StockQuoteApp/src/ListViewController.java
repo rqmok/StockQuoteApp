@@ -48,12 +48,27 @@ public class ListViewController extends Controller {
             int i = 0;
             //iterate through the monitors
             for (Monitor graphMonitor : monitorList) {
+                //Get data fields so we can name our graph axes
+                ArrayList<String> fields = graphMonitor.getStock().getLastStockData().getFieldNames();
+                //Get stock name so we can give our graph a title
+                ArrayList<String> quotesData = graphMonitor.getStock().getLastStockData().getQuoteData();
+                //Create variables with necessary data
+                String title = quotesData.get(0);
+                String xCord = fields.get(3);
+                String yCord = fields.get(1);
+                
+                
                 //Create the axis of the linechart
                 NumberAxis xAxis = new NumberAxis();
+                xAxis.setLabel(xCord);
                 NumberAxis yAxis = new NumberAxis();
+                yAxis.setLabel(yCord);
 
                 //Create a line chart and assign it's axis
                 LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+                
+                //Give the chart a title
+                lineChart.setTitle(title);
 
                 //Give the line chart an ID
                 //String chartID = Integer.toBinaryString(i);
