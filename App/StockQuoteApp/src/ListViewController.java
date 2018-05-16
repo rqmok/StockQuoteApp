@@ -91,9 +91,7 @@ public class ListViewController extends Controller {
                     int x = toMins(quoteData.get(3));
                     int y = Double.valueOf(quoteData.get(1)).intValue();
 
-                    String title = fieldData.get(0);
-                    String xCord = fieldData.get(3);
-                    String yCord = fieldData.get(1);
+                 
 
                     //Create a new data set with the extracted info
                     XYChart.Data<Number, Number> data = new LineChart.Data<>(x, y);
