@@ -28,6 +28,8 @@ public class ApplicationController extends Application implements UpdateStockDat
     private ComboBox<StockService.serviceTypes> serviceSelectionComboBox;
     // declare a symbols selection combo box for TLS service
     private ComboBox<String> symbolSelectionComboBox;
+    //Declare the monitor selection combo box
+    private ComboBox<Monitor.monitorTypes> monitorSelectionComboBox;
 
     // Stores all out data
     Model model = new Model();
@@ -86,6 +88,10 @@ public class ApplicationController extends Application implements UpdateStockDat
         symbolSelectionComboBox.getItems().setAll(TLSSymbols);
         symbolSelectionComboBox.setValue(TLSSymbols.get(0));
 
+        //Create a dropdown box for selecting monitor type
+        monitorSelectionComboBox = new ComboBox<>();
+        monitorSelectionComboBox.getItems().setAll(Monitor.monitorTypes.values());
+
         // Create button for adding new stock tracker
         Button stockAddButton = new Button("Add New Stock");
         // Define action for clicking button
@@ -103,7 +109,7 @@ public class ApplicationController extends Application implements UpdateStockDat
         // Set spacing between items in the HBox
         hBox.setSpacing(10);
         // Add our items to the HBox
-        hBox.getChildren().addAll(stockSymbolTextField, serviceSelectionComboBox, symbolSelectionComboBox,stockAddButton,stockDeleteButton);
+        hBox.getChildren().addAll(stockSymbolTextField, serviceSelectionComboBox, symbolSelectionComboBox, monitorSelectionComboBox,stockAddButton,stockDeleteButton);
 
         // Create a new table view controller
         TableViewController tableViewController = new TableViewController(model.getFieldNames());
@@ -157,7 +163,7 @@ public class ApplicationController extends Application implements UpdateStockDat
             stockSymbolTextField.clear();
 
             // Ask model to add monitor
-            model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE, Monitor.monitorTypes.TABLE_MONITOR);
+            model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE, this.monitorSelectionComboBox.getValue());
 
         }
         else if (this.serviceSelectionComboBox.getValue() == StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE) {
@@ -165,7 +171,7 @@ public class ApplicationController extends Application implements UpdateStockDat
             String symbol = symbolSelectionComboBox.getValue();
 
             // Ask the model to add monitor
-            model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE, Monitor.monitorTypes.GRAPH_MONITOR);
+            model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE, this.monitorSelectionComboBox.getValue());
         }
 
         // Update the controllers
