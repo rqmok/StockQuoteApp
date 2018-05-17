@@ -2,8 +2,18 @@
 public class Monitor {
 
     public enum monitorTypes {
-        TABLE_MONITOR,
-        GRAPH_MONITOR
+        TABLE_MONITOR("Table Monitor"),
+        GRAPH_MONITOR("Graph Monitor");
+
+        private final String monitor;
+
+        monitorTypes(String monitor) {
+            this.monitor = monitor;
+        }
+
+        public String getMonitor() {
+            return this.monitor;
+        }
     }
 
     private Stock stock;
