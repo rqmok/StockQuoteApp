@@ -22,7 +22,7 @@ public class TableViewController extends Controller {
         // Create columns from field names
         for (String fieldName : fieldNames) {
             TableColumn<Monitor, String> column = new TableColumn<>(fieldName);
-            column.setMinWidth(200);
+            //column.setMinWidth(200);
             columns.add(column);
         }
 

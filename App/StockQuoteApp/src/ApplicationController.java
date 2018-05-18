@@ -125,14 +125,20 @@ public class ApplicationController extends Application implements UpdateStockDat
 
 
         // Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(tableView, listView, hBox);
-        vBox.setVgrow(tableView, Priority.ALWAYS);
+        HBox controllersHBox = new HBox();
+        controllersHBox.getChildren().addAll(tableView, listView);
+        controllersHBox.setHgrow(listView, Priority.ALWAYS);
+        controllersHBox.setHgrow(listView, Priority.ALWAYS);
+
+        // Create a vbox to contain every other box
+        VBox rootVBox = new VBox();
+        rootVBox.getChildren().addAll(controllersHBox, hBox);
+        rootVBox.setVgrow(controllersHBox, Priority.ALWAYS);
 
 
         // Create an event handler to handle key presses. This allows the user to add stock monitors with the ENTER key
         // and delete stock monitors with he DELETE key
-        vBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        controllersHBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()){
@@ -143,7 +149,7 @@ public class ApplicationController extends Application implements UpdateStockDat
             }
         });
 
-        Scene scene = new Scene(vBox);
+        Scene scene = new Scene(rootVBox);
         window.setScene(scene);
         window.show();
 
