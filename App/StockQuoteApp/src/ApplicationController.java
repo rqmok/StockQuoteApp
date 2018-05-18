@@ -154,25 +154,26 @@ public class ApplicationController extends Application implements UpdateStockDat
 
     // Function for adding a new tracker
     public void addNewMonitor() {
-        if (this.serviceSelectionComboBox.getValue() == StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE) {
+        StockService.serviceTypes serviceType = this.serviceSelectionComboBox.getValue();
+        Monitor.monitorTypes monitorType = this.monitorSelectionComboBox.getValue();
+        String symbol = "";
 
-            // Get symbol text
-            String symbol = stockSymbolTextField.getText();
-
-            // Remove text from text field, ready for new input
+        // Get the symbol from the appropriate field
+        if (serviceType == StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE) {
+            symbol = stockSymbolTextField.getText();
             stockSymbolTextField.clear();
-
-            // Ask model to add monitor
-            model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE, this.monitorSelectionComboBox.getValue());
-
         }
-        else if (this.serviceSelectionComboBox.getValue() == StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE) {
-            // Get symbol text
-            String symbol = symbolSelectionComboBox.getValue();
-
-            // Ask the model to add monitor
-            model.addMonitor(symbol, StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE, this.monitorSelectionComboBox.getValue());
+        else if (serviceType == StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE) {
+            symbol = symbolSelectionComboBox.getValue();
         }
+
+        // Make sure symbol is not null
+        if (symbol == null || symbol.length() < 1) {
+            return;
+        }
+
+        // Ask the model to add the monitor
+        model.addMonitor(symbol, serviceType, monitorType);
 
         // Update the controllers
         this.updateControllers();
