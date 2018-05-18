@@ -23,15 +23,15 @@ public class StockQuoteWSAdapter implements StockService {
         List quoteDataList = SQPort.getQuote(symbol);
 
         // Check if the symbol exists or not
-        if (quoteDataList.get(1).toString().contains("Unset")
-                && quoteDataList.get(2).toString().contains("Unset")) {
-            throw new Exception(quoteDataList.get(0).toString() + " cannot be found!");
+        if (quoteDataList.get(dataIndex.INDEX_LAST_TRADE).toString().contains("Unset")
+                && quoteDataList.get(dataIndex.INDEX_DATE).toString().contains("Unset")) {
+            throw new Exception(quoteDataList.get(dataIndex.INDEX_SYMBOL).toString() + " cannot be found!");
         }
 
         // Check if an internal error has occured
         // There should be less than 4 elements in the returned array if internal error has occurred
         if (quoteDataList.size() < 4) {
-            throw new Exception(quoteDataList.get(0).toString());
+            throw new Exception(quoteDataList.get(dataIndex.INDEX_SYMBOL).toString());
         }
 
         // Construct array lists

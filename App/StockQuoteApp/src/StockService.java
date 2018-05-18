@@ -17,6 +17,18 @@ public interface StockService {
         }
     }
 
+    class dataIndex {
+        public static final int INDEX_SYMBOL = 0;
+        public static final int INDEX_LAST_TRADE = 1;
+        public static final int INDEX_DATE = 2;
+        public static final int INDEX_TIME = 3;
+        public static final int INDEX_CHANGE = 4;
+        public static final int INDEX_OPEN = 5;
+        public static final int INDEX_DAY_HIGH = 6;
+        public static final int INDEX_DAY_LOW = 7;
+        public static final int INDEX_VOLUME = 8;
+    };
+
     StockData getStockData(String symbol) throws Exception;
 
     serviceTypes getServiceType();

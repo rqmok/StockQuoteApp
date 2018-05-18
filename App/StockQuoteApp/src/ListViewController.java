@@ -52,20 +52,33 @@ public class ListViewController extends Controller {
                 ArrayList<String> fields = graphMonitor.getStock().getLastStockData().getFieldNames();
                 //Get stock name so we can give our graph a title
                 ArrayList<String> quotesData = graphMonitor.getStock().getLastStockData().getQuoteData();
-                //Create variables with necessary data
-                String title = quotesData.get(0);
-                String xCord = fields.get(3);
-                String yCord = fields.get(1);
+
+                //Create variables for labeling the graph
+                String title = quotesData.get(StockService.dataIndex.INDEX_SYMBOL);
+                String xCord = fields.get(StockService.dataIndex.INDEX_TIME) + " (mins)";
+                String yCord = fields.get(StockService.dataIndex.INDEX_LAST_TRADE) + " ($)";
 
                 //To set the scale for our graph, we need to recover the original x/y value because we need a consistent
                 //set of x/y values to delineate the size of the axis
                 ArrayList<String> origInfo = graphMonitor.getStock().getStockData().get(0).getQuoteData();
 
+                // Find the minimum and maximum y values
+                Double ymin = Double.valueOf(quotesData.get(StockService.dataIndex.INDEX_LAST_TRADE));
+                Double ymax = ymin;
+                for (StockData data : graphMonitor.getStock().getStockData()) {
+                    ArrayList<String> quoteData = data.getQuoteData();
+                    double lastTrade = Double.valueOf(quoteData.get(StockService.dataIndex.INDEX_LAST_TRADE));
+                    if (ymin > lastTrade)
+                        ymin = lastTrade;
+                    if (ymax < lastTrade)
+                        ymax = lastTrade;
+                }
+
                 // Set lower and upper bounds for the xAxis and yAxis
-                int xLower = toMins(origInfo.get(3)) - 5;
-                int xUpper = toMins(quotesData.get(3)) + 5;
-                int yLower = Double.valueOf(origInfo.get(1)).intValue() - 15;
-                int yUpper = yLower + 30;
+                int xLower = toMins(origInfo.get(StockService.dataIndex.INDEX_TIME)) - 1;
+                int xUpper = toMins(quotesData.get(StockService.dataIndex.INDEX_TIME)) + 1;
+                double yLower = ymin - 1;
+                double yUpper = ymax + 0.1;
 
                 //Create the axis of the linechart
                 NumberAxis xAxis = new NumberAxis(xLower,xUpper,1);
@@ -93,13 +106,9 @@ public class ListViewController extends Controller {
                 //For each individual piece of stock data, add to the series
                 for (StockData stockData : stockDataList) {
                     ArrayList<String> quoteData = stockData.getQuoteData();
-                    ArrayList<String> fieldData = stockData.getFieldNames();
-                    //int x = Integer.parseInt(quoteData.get(3));
-                    //int y = Integer.parseInt(quoteData.get(1));
 
-                    int x = toMins(quoteData.get(3));
-                    int y = Double.valueOf(quoteData.get(1)).intValue();
-
+                    int x = toMins(quoteData.get(StockService.dataIndex.INDEX_TIME));
+                    int y = Double.valueOf(quoteData.get(StockService.dataIndex.INDEX_LAST_TRADE)).intValue();
                  
 
                     //Create a new data set with the extracted info

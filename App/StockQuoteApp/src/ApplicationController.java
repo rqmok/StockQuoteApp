@@ -84,11 +84,15 @@ public class ApplicationController extends Application implements UpdateStockDat
         ArrayList<String> TLSSymbols = model.getTLSSymbols();
         symbolSelectionComboBox = new ComboBox<>();
         symbolSelectionComboBox.getItems().setAll(TLSSymbols);
-        symbolSelectionComboBox.setValue(TLSSymbols.get(0));
 
         //Create a dropdown box for selecting monitor type
         monitorSelectionComboBox = new ComboBox<>();
         monitorSelectionComboBox.getItems().setAll(Monitor.monitorTypes.values());
+
+        // Set defaults for combo boxes
+        serviceSelectionComboBox.setValue(StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE);
+        symbolSelectionComboBox.setValue(TLSSymbols.get(0));
+        monitorSelectionComboBox.setValue(Monitor.monitorTypes.TABLE_MONITOR);
 
         // Create button for adding new stock tracker
         Button stockAddButton = new Button("Add New Stock");
