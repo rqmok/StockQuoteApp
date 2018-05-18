@@ -78,7 +78,7 @@ public class ListViewController extends Controller {
                 int xLower = toMins(origInfo.get(StockService.dataIndex.INDEX_TIME)) - 1;
                 int xUpper = toMins(quotesData.get(StockService.dataIndex.INDEX_TIME)) + 1;
                 double yLower = ymin - 1;
-                double yUpper = ymax + 0.1;
+                double yUpper = ymax + 1;
 
                 //Create the axis of the linechart
                 NumberAxis xAxis = new NumberAxis(xLower,xUpper,1);
