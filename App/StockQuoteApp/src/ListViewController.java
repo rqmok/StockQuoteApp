@@ -60,14 +60,17 @@ public class ListViewController extends Controller {
                 //To set the scale for our graph, we need to recover the original x/y value because we need a consistent
                 //set of x/y values to delineate the size of the axis
                 ArrayList<String> origInfo = graphMonitor.getStock().getStockData().get(0).getQuoteData();
-                //Extract said values
-                int xValue = toMins(origInfo.get(3));
-                int yValue = Double.valueOf(origInfo.get(1)).intValue();
+
+                // Set lower and upper bounds for the xAxis and yAxis
+                int xLower = toMins(origInfo.get(3)) - 5;
+                int xUpper = toMins(quotesData.get(3)) + 5;
+                int yLower = Double.valueOf(origInfo.get(1)).intValue() - 15;
+                int yUpper = yLower + 30;
 
                 //Create the axis of the linechart
-                NumberAxis xAxis = new NumberAxis(xValue-5,xValue+50,1);
+                NumberAxis xAxis = new NumberAxis(xLower,xUpper,1);
                 xAxis.setLabel(xCord);
-                NumberAxis yAxis = new NumberAxis(yValue-100,yValue+100,5);
+                NumberAxis yAxis = new NumberAxis(yLower,yUpper,5);
                 yAxis.setLabel(yCord);
 
                 //Create a line chart and assign it's axis
