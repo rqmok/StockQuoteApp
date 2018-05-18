@@ -2,8 +2,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -69,7 +67,7 @@ public class ApplicationController extends Application implements UpdateStockDat
             public void changed(ObservableValue<? extends StockService.serviceTypes> observable, StockService.serviceTypes oldValue, StockService.serviceTypes newValue) {
                 switch (newValue) {
                     case STOCK_QUOTE_TLS_SERVICE:
-                        stockSymbolTextField.setDisable(false);
+                        stockSymbolTextField.setDisable(true);
                         symbolSelectionComboBox.setDisable(false);
                         break;
                     case STOCK_QUOTE_WS_SERVICE:
