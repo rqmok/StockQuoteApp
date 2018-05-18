@@ -29,6 +29,14 @@ public class StockQuoteTLSAdapter implements StockService {
         ArrayList<String> fieldNames = getFieldNames();
         ArrayList<String> quoteData = new ArrayList<>(quoteDataList);
 
+        // Indexes that need to be converted to dollars from cents
+        int dollarIndexes[] = {1, 4, 5, 6, 7, 8};
+
+        for (int index : dollarIndexes) {
+            Double newValue = Double.valueOf(quoteData.get(index)) / 100;
+            quoteData.set(index, String.valueOf(newValue));
+        }
+
         // Create new stock data with array lists
         StockData data = new StockData(fieldNames, quoteData);
 
