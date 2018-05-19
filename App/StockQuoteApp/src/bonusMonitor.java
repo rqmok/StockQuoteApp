@@ -1,14 +1,13 @@
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
-import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class bonusMonitor extends Controller {
 
@@ -32,13 +31,14 @@ public class bonusMonitor extends Controller {
 
         vBox.getChildren().clear();
 
-        int Counter = 0;
-        System.out.println("helloooo");
-        for (Monitor monitor : monitors) {
-            StockData currentData = monitor.getStock().getLastStockData();
-            Label stockLabel = new Label(currentData.getQuoteData().get(0));
-            Double currentPrice = Double.valueOf(currentData.getQuoteData().get(1));
+        //For each monitor
+        ArrayList<List<String>> primaryList = new ArrayList<>();
 
+        for (Monitor monitor : monitors) {
+            //Get the required data
+            StockData currentData = monitor.getStock().getLastStockData();
+            String stockLabel = currentData.getQuoteData().get(0);
+            Double currentPrice = Double.valueOf(currentData.getQuoteData().get(1));
             System.out.println(currentPrice);
 
             StockData orignalData = monitor.getStock().getStockData().get(0);
@@ -47,29 +47,53 @@ public class bonusMonitor extends Controller {
             System.out.println(originalPrice);
 
             Double changeInValue = ((currentPrice - originalPrice)/ originalPrice)*100;
+            //convert to 3 decimal places
+            DecimalFormat df = new DecimalFormat("#.###");
+            changeInValue = Double.valueOf(df.format(changeInValue));
+
 
             System.out.println(changeInValue);
            // Label change = new Label(Integer.toString(changeInValue));
-            ListView<Label> listView = new ListView<>();
 
-            ObservableList<Label> labels = FXCollections.observableArrayList();
+            List<String> monitorInfo = new ArrayList<>();
+            monitorInfo.add(stockLabel);
+            monitorInfo.add(Double.toString(currentPrice));
+            monitorInfo.add(Double.toString(changeInValue));
 
-            listView.setPrefWidth(100);
-            //listView.setMaxWidth(80);
+            primaryList.add(monitorInfo);
 
-            listView.setOrientation(Orientation.HORIZONTAL);
-
-           // labels.addAll(stockLabel, change);
-
-            listView.setItems(labels);
-
-
-
-            vBox.getChildren().add(listView);
-
-            Counter ++;
 
         }
+            //Bubble sort
+            //The Bubble sort will iterate through the primary list and sort it in ascending order
+            //This will allow us to determine our top 5 and bottom 5 stocks
+            for (int i = 0; i < primaryList.size(); i++){
+                for (int j = 1; j < (primaryList.size() - i); j++) {
+                    Double a = Double.parseDouble(primaryList.get(j-1).get(2));
+                    Double b = Double.parseDouble(primaryList.get(j).get(2));
+                    if ( a > b){
+                        List temp = primaryList.get(j-1);
+                        primaryList.set(j-1, primaryList.get(j));
+                        primaryList.set(j, temp);
+
+                    }
+
+                }
+
+            }
+
+
+
+
+        List<List<Object>> topFive = new ArrayList<>();
+
+        for (int i = 0; i < primaryList.size(); i++){
+
+            System.out.println(primaryList.get(i).get(2));
+
+        }
+
+
 
         });
 
@@ -79,6 +103,22 @@ public class bonusMonitor extends Controller {
     public VBox getGridPane(){
         return vBox;
     }
+
+    //likely will delete but keep for now
+    public class Tuple<S, T, R> {
+        public final S Label;
+        public final T Current;
+        public final R Change;
+
+        public Tuple(S x, T y, R z) {
+            this.Label = x;
+            this.Current = y;
+            this.Change = z;
+        }
+
+
+    }
+
 
 
     @Override
