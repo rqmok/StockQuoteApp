@@ -114,25 +114,32 @@ public class ApplicationController extends Application implements UpdateStockDat
         hBox.getChildren().addAll(stockSymbolTextField, serviceSelectionComboBox, symbolSelectionComboBox, monitorSelectionComboBox,stockAddButton,stockDeleteButton);
 
         // Create a new table view controller
-        TableViewController tableViewController = new TableViewController(model.getFieldNames());
-        controllers.add(tableViewController);
-        TableView<Monitor> tableView = tableViewController.getTableView();
+        StocksTableViewController stocksTableViewController = new StocksTableViewController(model.getFieldNames());
+        controllers.add(stocksTableViewController);
+        TableView<Monitor> stocksTableView = stocksTableViewController.getTableView();
+        stocksTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        //Add a ListViewController
-        ListViewController listViewController = new ListViewController();
-        controllers.add(listViewController);
-        ListView<LineChart> listView = listViewController.getListView();
+        //Add a GraphListViewController
+        GraphListViewController graphListViewController = new GraphListViewController();
+        controllers.add(graphListViewController);
+        ListView<LineChart> graphListView = graphListViewController.getListView();
 
 
         // Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(tableView, listView, hBox);
-        vBox.setVgrow(tableView, Priority.ALWAYS);
+        HBox controllersHBox = new HBox();
+        controllersHBox.getChildren().addAll(stocksTableView, graphListView);
+        controllersHBox.setHgrow(stocksTableView, Priority.ALWAYS);
+        controllersHBox.setHgrow(graphListView, Priority.ALWAYS);
+
+        // Create a vbox to contain every other box
+        VBox rootVBox = new VBox();
+        rootVBox.getChildren().addAll(controllersHBox, hBox);
+        rootVBox.setVgrow(controllersHBox, Priority.ALWAYS);
 
 
         // Create an event handler to handle key presses. This allows the user to add stock monitors with the ENTER key
         // and delete stock monitors with he DELETE key
-        vBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        stockSymbolTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()){
@@ -143,9 +150,11 @@ public class ApplicationController extends Application implements UpdateStockDat
             }
         });
 
-        Scene scene = new Scene(vBox);
+        Scene scene = new Scene(rootVBox);
         window.setScene(scene);
         window.show();
+
+        stocksTableView.setPrefWidth(window.getWidth()/3);
 
         // Create a new update
         StockUpdaterClock updater = new StockUpdaterClock(this, 5);

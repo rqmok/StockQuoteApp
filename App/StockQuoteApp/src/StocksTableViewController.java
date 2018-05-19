@@ -8,11 +8,11 @@ import javafx.util.Callback;
 
 import java.util.ArrayList;
 
-public class TableViewController extends Controller {
+public class StocksTableViewController extends Controller {
 
     private TableView<Monitor> tableView;
 
-    public TableViewController(ArrayList<String> fieldNames) {
+    public StocksTableViewController(ArrayList<String> fieldNames) {
 
         tableView = new TableView<>();
 
@@ -22,7 +22,7 @@ public class TableViewController extends Controller {
         // Create columns from field names
         for (String fieldName : fieldNames) {
             TableColumn<Monitor, String> column = new TableColumn<>(fieldName);
-            column.setMinWidth(200);
+            column.setPrefWidth(100);
             columns.add(column);
         }
 

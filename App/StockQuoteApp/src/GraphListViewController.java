@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class ListViewController extends Controller {
+public class GraphListViewController extends Controller {
 
     private ListView<LineChart> listView;
     private ArrayList<Monitor> monitorList;
     Map<String, Monitor> monitorDictionary = new HashMap<String, Monitor>();
 
-    public ListViewController(){
+    public GraphListViewController(){
         listView = new ListView<>();
     }
 
@@ -141,7 +141,9 @@ public class ListViewController extends Controller {
     private static int toMins(String s) {
         String[] hourMin = s.split(":");
 
-        int hour = Integer.parseInt(hourMin[0]);
+        String hourSubstring = hourMin[0].length() > 2 ? hourMin[0].substring(hourMin[0].length() - 2) : hourMin[0];
+
+        int hour = Integer.parseInt(hourSubstring);
         int mins = Integer.parseInt(hourMin[1]);
         int hoursInMins = hour * 60;
 
