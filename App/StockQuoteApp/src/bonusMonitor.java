@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -39,12 +40,12 @@ public class bonusMonitor extends Controller {
             StockData currentData = monitor.getStock().getLastStockData();
             String stockLabel = currentData.getQuoteData().get(0);
             Double currentPrice = Double.valueOf(currentData.getQuoteData().get(1));
-            System.out.println(currentPrice);
+
 
             StockData orignalData = monitor.getStock().getStockData().get(0);
             Double originalPrice = Double.valueOf(orignalData.getQuoteData().get(1));
 
-            System.out.println(originalPrice);
+
 
             Double changeInValue = ((currentPrice - originalPrice)/ originalPrice)*100;
             //convert to 3 decimal places
@@ -52,7 +53,7 @@ public class bonusMonitor extends Controller {
             changeInValue = Double.valueOf(df.format(changeInValue));
 
 
-            System.out.println(changeInValue);
+
            // Label change = new Label(Integer.toString(changeInValue));
 
             List<String> monitorInfo = new ArrayList<>();
@@ -65,13 +66,13 @@ public class bonusMonitor extends Controller {
 
         }
             //Bubble sort
-            //The Bubble sort will iterate through the primary list and sort it in ascending order
+            //The Bubble sort will iterate through the primary list and sort it in descending order
             //This will allow us to determine our top 5 and bottom 5 stocks
             for (int i = 0; i < primaryList.size(); i++){
                 for (int j = 1; j < (primaryList.size() - i); j++) {
                     Double a = Double.parseDouble(primaryList.get(j-1).get(2));
                     Double b = Double.parseDouble(primaryList.get(j).get(2));
-                    if ( a > b){
+                    if ( a < b){
                         List temp = primaryList.get(j-1);
                         primaryList.set(j-1, primaryList.get(j));
                         primaryList.set(j, temp);
@@ -84,14 +85,34 @@ public class bonusMonitor extends Controller {
 
 
 
+        //List for storing top 5
+        List<List<String>> topFive = new ArrayList<>();
 
-        List<List<Object>> topFive = new ArrayList<>();
 
-        for (int i = 0; i < primaryList.size(); i++){
+
+        for (int i = 0; i < primaryList.size() && i < 5 ; i++){
 
             System.out.println(primaryList.get(i).get(2));
+            topFive.add(primaryList.get(i));
 
         }
+
+        //Reverse our array so we can find the bottom 5 values
+        Collections.reverse(primaryList);
+
+
+
+        //List for storing top 5
+        List<List<String>> bottomFive = new ArrayList<>();
+
+        for (int i = 0; i < primaryList.size() && i < 5 ; i++){
+
+            System.out.println(primaryList.get(i).get(2));
+            bottomFive.add(primaryList.get(i));
+
+        }
+
+
 
 
 
