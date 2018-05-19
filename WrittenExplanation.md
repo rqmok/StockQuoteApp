@@ -33,3 +33,12 @@ The visual representation of the monitor types is handled by the ‘Controller�
 The ‘Controller’ abstract class ensures that the child controllers provide implementation of specific functions that the ‘ApplicationController’ requires of them. How the actual controllers are implemented and represented is abstracted away from the ‘ApplicationController’, which, again, promotes loose coupling. It is notable here that the Liskov Substitution Principle was also kept in mind for the design of controllers, as the ‘ApplicationController’ does not need to worry about the type of controller it needs to update. Rather, it will update controllers solely based on their abstract methods.
 
 ## References
+FIT3077 Software Engineering (2013). Lecture 5: Principles of Object-Oriented Analysis and Design (PDF). Retrieved from Monash University FIT3077 Software Engineering: Architecture and design Moodle: https://moodle.vle.monash.edu/
+
+FIT3077 Software Engineering (2013). Lecture 6: Design Patterns (PDF). Retrieved from Monash University FIT3077 Software Engineering: Architecture and design Moodle: https://moodle.vle.monash.edu/
+
+FIT3077 Software Engineering (2011). Lecture 7: Principles of Object-Oriented Design 2 (PDF). Retrieved from Monash University FIT3077 Software Engineering: Architecture and design Moodle: https://moodle.vle.monash.edu/
+
+FIT3077 Software Engineering (2017). Lecture 13: The Model-View-Controller Architectural Pattern (PDF). Retrieved from Monash University FIT3077 Software Engineering: Architecture and design Moodle: https://moodle.vle.monash.edu/
+
+FIT3077 Software Engineering (2017). Lecture 21: Architecture and Design with COTS Components (PDF). Retrieved from Monash University FIT3077 Software Engineering: Architecture and design Moodle: https://moodle.vle.monash.edu/
