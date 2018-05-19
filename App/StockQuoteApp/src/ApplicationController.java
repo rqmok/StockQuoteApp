@@ -130,7 +130,7 @@ public class ApplicationController extends Application implements UpdateStockDat
         //Add new monitor
          bonusMonitor bonusMonitor = new bonusMonitor();
          controllers.add(bonusMonitor);
-         VBox bonusView = bonusMonitor.getGridPane();
+         VBox bonusView = bonusMonitor.getVBox();
 
         // Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
         HBox controllersHBox = new HBox();
