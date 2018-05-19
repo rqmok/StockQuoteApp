@@ -29,6 +29,9 @@ public class ApplicationController extends Application implements UpdateStockDat
     //Declare the monitor selection combo box
     private ComboBox<Monitor.monitorTypes> monitorSelectionComboBox;
 
+    // Flag to check whether the model is currently being modified.
+    private Boolean resourcesBusy = false;
+
     // Stores all out data
     Model model = new Model();
 
@@ -171,6 +174,11 @@ public class ApplicationController extends Application implements UpdateStockDat
 
     // Function for adding a new tracker
     public void addNewMonitor() {
+        checkResourcesBusy();
+
+        // Set the flag to let other methods know that the model is updating
+        this.resourcesBusy = true;
+
         StockService.serviceTypes serviceType = this.serviceSelectionComboBox.getValue();
         Monitor.monitorTypes monitorType = this.monitorSelectionComboBox.getValue();
         String symbol = "";
@@ -194,10 +202,17 @@ public class ApplicationController extends Application implements UpdateStockDat
 
         // Update the controllers
         this.updateControllers();
+
+        this.resourcesBusy = false;
     }
 
     // Function for deleting tracker
     public void deleteMonitor() {
+        checkResourcesBusy();
+
+        // Set the flag to let other methods know that the model is updating
+        this.resourcesBusy = true;
+
         // Get selected monitors
         for (Controller controller : controllers) {
             ArrayList<Monitor> selectedMonitors = controller.getSelectedMonitors();
@@ -211,6 +226,8 @@ public class ApplicationController extends Application implements UpdateStockDat
 
         // Update all view controllers
         this.updateControllers();
+
+        this.resourcesBusy = false;
     }
 
     public void updateControllers() {
@@ -221,10 +238,28 @@ public class ApplicationController extends Application implements UpdateStockDat
     }
 
     public void updateStockData(StockService.serviceTypes serviceType) {
+        checkResourcesBusy();
+
+        // Set the flag to let other methods know that the model is updating
+        this.resourcesBusy = true;
+
         // Ask the model to update data
         model.updateStockData(serviceType);
 
         // Updater the controllers
         this.updateControllers();
+
+        this.resourcesBusy = false;
+    }
+
+    private void checkResourcesBusy() {
+        while (resourcesBusy) {
+            // Check again after one second
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }
