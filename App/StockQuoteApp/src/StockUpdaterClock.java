@@ -5,18 +5,15 @@ public class StockUpdaterClock implements Runnable {
     // Interval for update stock data
     private long intervalInSeconds;
 
-    // The stock service that needs to be updated
-    private StockService.serviceTypes serviceType;
-
-    public StockUpdaterClock(UpdateStockDataDelegate updateStockDataDelegate, long intervalInSeconds, StockService.serviceTypes serviceType) {
+    public StockUpdaterClock(UpdateStockDataDelegate updateStockDataDelegate, long intervalInSeconds) {
         this.updateStockDataDelegate = updateStockDataDelegate;
         this.intervalInSeconds = intervalInSeconds;
-        this.serviceType = serviceType;
+
     }
 
     public void run() {
         while (true) {
-            updateStockDataDelegate.updateStockData(serviceType);
+            updateStockDataDelegate.updateStockData();
 
             try {
                 Thread.sleep(intervalInSeconds * 1000);

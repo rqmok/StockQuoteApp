@@ -147,17 +147,11 @@ public class ApplicationController extends Application implements UpdateStockDat
         window.setScene(scene);
         window.show();
 
-        // Create a new updater
-        StockUpdaterClock WSUpdater = new StockUpdaterClock(this, 5 * 60, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE);
+        // Create a new update
+        StockUpdaterClock updater = new StockUpdaterClock(this, 5);
         // Create a new thread
-        Thread WSThread = new Thread(WSUpdater);
-        WSThread.start();
-
-        // Create new update for lts
-        StockUpdaterClock LTSUpdater = new StockUpdaterClock(this, 5, StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE);
-        // Start a new thread
-        Thread LTSThread = new Thread(LTSUpdater);
-        LTSThread.start();
+        Thread t = new Thread(updater);
+        t.start();
     }
 
     // Function for adding a new tracker
@@ -211,9 +205,9 @@ public class ApplicationController extends Application implements UpdateStockDat
         }
     }
 
-    public void updateStockData(StockService.serviceTypes serviceType) {
+    public void updateStockData() {
         // Ask the model to update data
-        model.updateStockData(serviceType);
+        model.updateStockData();
 
         // Updater the controllers
         this.updateControllers();
