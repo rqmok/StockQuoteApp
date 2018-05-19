@@ -81,10 +81,22 @@ public class Model {
         return monitors;
     }
 
-    public void updateStockData() {
+    public ArrayList<Monitor> updateStockData() {
         for (Stock stock : stocks) {
             stock.updateStockData();
         }
+
+        return getMonitors();
+    }
+
+    public ArrayList<Monitor> updateStockData(StockService.serviceTypes serviceType) {
+        for (Stock stock : stocks) {
+            if (stock.getStockService().getServiceType() == serviceType) {
+                stock.updateStockData();
+            }
+        }
+
+        return getMonitors();
     }
 
     // ****** Helper Functions ******
