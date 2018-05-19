@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -27,24 +28,28 @@ public class bonusMonitor extends Controller {
         }
 
 
+        Platform.runLater(() -> {
+
+        vBox.getChildren().clear();
+
         int Counter = 0;
         System.out.println("helloooo");
         for (Monitor monitor : monitors) {
             StockData currentData = monitor.getStock().getLastStockData();
             Label stockLabel = new Label(currentData.getQuoteData().get(0));
-            int currentPrice = Double.valueOf(currentData.getQuoteData().get(1)).intValue();
+            Double currentPrice = Double.valueOf(currentData.getQuoteData().get(1));
 
             System.out.println(currentPrice);
 
             StockData orignalData = monitor.getStock().getStockData().get(0);
-            int originalPrice = Double.valueOf(orignalData.getQuoteData().get(1)).intValue();
+            Double originalPrice = Double.valueOf(orignalData.getQuoteData().get(1));
 
             System.out.println(originalPrice);
 
-            int changeInValue = ((currentPrice - originalPrice)/ originalPrice)*100;
+            Double changeInValue = ((currentPrice - originalPrice)/ originalPrice)*100;
 
-
-            Label change = new Label(Integer.toString(changeInValue));
+            System.out.println(changeInValue);
+           // Label change = new Label(Integer.toString(changeInValue));
             ListView<Label> listView = new ListView<>();
 
             ObservableList<Label> labels = FXCollections.observableArrayList();
@@ -54,7 +59,7 @@ public class bonusMonitor extends Controller {
 
             listView.setOrientation(Orientation.HORIZONTAL);
 
-            labels.addAll(stockLabel, change);
+           // labels.addAll(stockLabel, change);
 
             listView.setItems(labels);
 
@@ -66,7 +71,7 @@ public class bonusMonitor extends Controller {
 
         }
 
-
+        });
 
     }
 

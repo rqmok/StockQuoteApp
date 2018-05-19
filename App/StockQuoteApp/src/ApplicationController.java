@@ -127,10 +127,14 @@ public class ApplicationController extends Application implements UpdateStockDat
         controllers.add(graphListViewController);
         ListView<LineChart> graphListView = graphListViewController.getListView();
 
+        //Add new monitor
+         bonusMonitor bonusMonitor = new bonusMonitor();
+         controllers.add(bonusMonitor);
+         VBox bonusView = bonusMonitor.getGridPane();
 
         // Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
         HBox controllersHBox = new HBox();
-        controllersHBox.getChildren().addAll(stocksTableView, graphListView);
+        controllersHBox.getChildren().addAll(stocksTableView, graphListView, bonusView);
         controllersHBox.setHgrow(stocksTableView, Priority.ALWAYS);
         controllersHBox.setHgrow(graphListView, Priority.ALWAYS);
 
