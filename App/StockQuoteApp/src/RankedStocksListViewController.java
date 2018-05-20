@@ -84,16 +84,23 @@ public class RankedStocksListViewController extends Controller {
             List<List<String>> topFive = new ArrayList<>();
 
             //Add top 5 stocks to our list
-            for (int i = 0; i < primaryList.size() && i < 5; i++){
-                topFive.add(primaryList.get(i));
+            for (int i = 0; i < primaryList.size() && topFive.size() < 5; i++){
+                List<String> infoList = primaryList.get(i);
+                if (topFive.contains(infoList) == false) {
+                    topFive.add(infoList);
+                }
             }
 
             //List for storing bottom 5 stocks
             List<List<String>> bottomFive = new ArrayList<>();
 
             // Add the bottom 5 stocks starting from the end of the list.
-            for (int i = primaryList.size() - 1; i > 4; i--) {
-                bottomFive.add(primaryList.get(i));
+            for (int i = primaryList.size() - 1; i > 1; i--) {
+                List<String> infoList = primaryList.get(i);
+                if (bottomFive.contains(infoList) == false
+                        && topFive.contains(infoList) == false) {
+                    bottomFive.add(primaryList.get(i));
+                }
             }
 
             //Put the top 5 stocks into listviews
