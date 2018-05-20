@@ -12,7 +12,7 @@ public interface StockService {
             this.service = service;
         }
 
-        public String getService() {
+        public String toString() {
             return this.service;
         }
     }

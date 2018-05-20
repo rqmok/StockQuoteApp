@@ -11,7 +11,7 @@ public class Monitor {
             this.monitor = monitor;
         }
 
-        public String getMonitor() {
+        public String toString() {
             return this.monitor;
         }
     }
