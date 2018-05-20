@@ -202,6 +202,8 @@ public class ApplicationController extends Application implements UpdateStockDat
 
         // Make sure symbol is not null
         if (symbol == null || symbol.length() < 1) {
+            // Reset the resources flag
+            this.resourcesBusy = false;
             return;
         }
 
