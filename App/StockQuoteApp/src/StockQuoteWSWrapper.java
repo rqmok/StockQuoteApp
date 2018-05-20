@@ -7,14 +7,14 @@ import java.util.List;
 //our application. This will be achieved by storing the data in a StockData object. This object will thus be used by the
 //system to process the data. Furthermore, this class also exists to ensure that no erroneous or unexpected data is
 //returned to this system
-public class StockQuoteWSAdapter implements StockService {
+public class StockQuoteWSWrapper implements StockService {
 
     private serviceTypes serviceType = serviceTypes.STOCK_QUOTE_WS_SERVICE;
 
     StockQuoteWS SQservice;
     StockQuoteWSPortType SQPort;
 
-    public StockQuoteWSAdapter() {
+    public StockQuoteWSWrapper() {
         // Initialise stock service once so it won't have to be initialised again (if object is not deleted)
         SQservice = new StockQuoteWS();
         SQPort = SQservice.getStockQuoteWSSOAP11PortHttp();

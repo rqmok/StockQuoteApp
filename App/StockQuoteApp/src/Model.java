@@ -13,8 +13,8 @@ public class Model {
         monitors = new ArrayList<>();
 
         // Create new services
-        services.add(new StockQuoteWSAdapter());
-        services.add(new StockQuoteTLSAdapter());
+        services.add(new StockQuoteWSWrapper());
+        services.add(new StockQuoteTLSWrapper());
     }
     //Create a monitor object
     public Monitor addMonitor(String symbol, StockService.serviceTypes serviceType, Monitor.monitorTypes monitorType) {
@@ -132,7 +132,7 @@ public class Model {
     // Helper function to get symbols from TLS function
     public ArrayList<String> getTLSSymbols() {
         StockService service = findService(StockService.serviceTypes.STOCK_QUOTE_TLS_SERVICE);
-        return ((StockQuoteTLSAdapter) service).getSymbols();
+        return ((StockQuoteTLSWrapper) service).getSymbols();
     }
 
 }

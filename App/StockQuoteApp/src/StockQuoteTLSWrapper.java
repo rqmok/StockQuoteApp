@@ -7,14 +7,14 @@ import java.util.List;
 //our application. This will be achieved by storing the data in a StockData object. This object will thus be used by the
 //system to process the data. Furthermore, this class also exists to ensure that no erroneous or unexpected data is
 //returned to this system
-public class StockQuoteTLSAdapter implements StockService {
+public class StockQuoteTLSWrapper implements StockService {
 
     private serviceTypes serviceType = serviceTypes.STOCK_QUOTE_TLS_SERVICE;
     //Set up to call the stock service
     StockQuoteTimeLapseService SQservice;
     StockQuoteTimeLapseServicePortType SQPort;
 
-    public StockQuoteTLSAdapter() {
+    public StockQuoteTLSWrapper() {
         SQservice = new StockQuoteTimeLapseService();
         SQPort = SQservice.getStockQuoteTimeLapseServiceHttpSoap11Endpoint();
     }
@@ -22,7 +22,7 @@ public class StockQuoteTLSAdapter implements StockService {
     public StockData getStockData(String symbol) throws Exception {
         //Ensure valid symbol is provided
         if (symbol == null || symbol.length() <= 0) {
-            throw new Exception("StockQuoteTLSAdapter: Provided empty symbol");
+            throw new Exception("StockQuoteTLSWrapper: Provided empty symbol");
         }
 
         // Get the quote data from service
