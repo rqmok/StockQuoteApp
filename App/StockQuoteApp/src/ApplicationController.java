@@ -3,6 +3,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
@@ -128,21 +129,25 @@ public class ApplicationController extends Application implements UpdateStockDat
         ListView<LineChart> graphListView = graphListViewController.getListView();
 
         //Add new monitor
-         bonusMonitor bonusMonitor = new bonusMonitor();
-         controllers.add(bonusMonitor);
-         VBox bonusView = bonusMonitor.getVBox();
+        bonusMonitor bonusMonitor = new bonusMonitor();
+        controllers.add(bonusMonitor);
+        HBox bonusView = bonusMonitor.getHBox();
 
-        // Create our scene. Our scene will be a VBox, which will allow us to vertically stack elements in the scene
-        HBox controllersHBox = new HBox();
-        controllersHBox.getChildren().addAll(stocksTableView, graphListView, bonusView);
-        controllersHBox.setHgrow(stocksTableView, Priority.ALWAYS);
-        controllersHBox.setHgrow(graphListView, Priority.ALWAYS);
+        // Create V box to contain table monitor and top/bottom 5 monitor
+        VBox tableListBox = new VBox();
+        tableListBox.getChildren().addAll(stocksTableView, bonusView);
+        tableListBox.setVgrow(stocksTableView, Priority.SOMETIMES);
 
-        // Create a vbox to contain every other box
-        VBox rootVBox = new VBox();
-        rootVBox.getChildren().addAll(controllersHBox, hBox);
-        rootVBox.setVgrow(controllersHBox, Priority.ALWAYS);
+        // Create a HBox to contain all monitors
+        HBox controllersBox = new HBox();
+        controllersBox.getChildren().addAll(tableListBox, graphListView);
+        controllersBox.setHgrow(tableListBox, Priority.SOMETIMES);
+        controllersBox.setHgrow(graphListView, Priority.ALWAYS);
 
+        // Create a root VBox to contain everything
+        VBox rootBox = new VBox();
+        rootBox.getChildren().addAll(controllersBox, hBox);
+        rootBox.setVgrow(controllersBox, Priority.ALWAYS);
 
         // Create an event handler to handle key presses. This allows the user to add stock monitors with the ENTER key
         // and delete stock monitors with he DELETE key
@@ -157,11 +162,11 @@ public class ApplicationController extends Application implements UpdateStockDat
             }
         });
 
-        Scene scene = new Scene(rootVBox);
+        Scene scene = new Scene(rootBox);
         window.setScene(scene);
         window.show();
 
-        stocksTableView.setPrefWidth(window.getWidth()/3);
+        tableListBox.setPrefWidth(window.getWidth()/2);
 
         // Create a new updater
         StockUpdaterClock WSUpdater = new StockUpdaterClock(this, 5 * 60, StockService.serviceTypes.STOCK_QUOTE_WS_SERVICE);

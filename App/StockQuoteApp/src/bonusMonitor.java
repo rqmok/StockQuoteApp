@@ -4,20 +4,20 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
 public class bonusMonitor extends Controller {
 
-    private VBox vBox;
+    private HBox hBox;
 
     public bonusMonitor(){
-        vBox = new VBox();
+        hBox = new HBox();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class bonusMonitor extends Controller {
         Platform.runLater(() -> {
 
             //Clear the vBox
-            vBox.getChildren().clear();
+            hBox.getChildren().clear();
 
             //Create main list for storing sets of data for each monitor
             ArrayList<List<String>> primaryList = new ArrayList<>();
@@ -64,13 +64,14 @@ public class bonusMonitor extends Controller {
 
 
             }
+
             //Bubble sort
             //The Bubble sort will iterate through the primary list and sort it in descending order
             //This will allow us to determine our top 5 and bottom 5 stocks
             for (int i = 0; i < primaryList.size(); i++){
                 for (int j = 1; j < (primaryList.size() - i); j++) {
-                    Double a = Double.parseDouble(primaryList.get(j-1).get(StockService.dataIndex.INDEX_LAST_TRADE));
-                    Double b = Double.parseDouble(primaryList.get(j).get(StockService.dataIndex.INDEX_LAST_TRADE));
+                    Double a = Double.parseDouble(primaryList.get(j-1).get(2));
+                    Double b = Double.parseDouble(primaryList.get(j).get(2));
                     if ( a < b){
                         List temp = primaryList.get(j-1);
                         primaryList.set(j-1, primaryList.get(j));
@@ -83,21 +84,16 @@ public class bonusMonitor extends Controller {
             List<List<String>> topFive = new ArrayList<>();
 
             //Add top 5 stocks to our list
-            for (int i = 0; i < primaryList.size() && i < 5 ; i++){
+            for (int i = 0; i < primaryList.size() && i < 5; i++){
                 topFive.add(primaryList.get(i));
             }
 
-            //Reverse our array so we can find the bottom 5 values
-            Collections.reverse(primaryList);
-
             //List for storing bottom 5 stocks
             List<List<String>> bottomFive = new ArrayList<>();
-            //Add bottom 5 stocks to our list
-            for (int i = 0; i < primaryList.size() && i < 5 ; i++){
 
-                System.out.println(primaryList.get(i).get(2));
+            // Add the bottom 5 stocks starting from the end of the list.
+            for (int i = primaryList.size() - 1; i > 4; i--) {
                 bottomFive.add(primaryList.get(i));
-
             }
 
             //Put the top 5 stocks into listviews
@@ -114,7 +110,7 @@ public class bonusMonitor extends Controller {
                 //create a list view object
                 ListView<Label> listView = new ListView<>();
                 listView.setOrientation(Orientation.HORIZONTAL);
-                listView.setFixedCellSize(50);
+                listView.setPrefHeight(35);
 
                 //Create an observable list of labels. We will feed this into our listview
                 ObservableList<Label> labels = FXCollections.observableArrayList();
@@ -146,7 +142,7 @@ public class bonusMonitor extends Controller {
                 //create a list view object
                 ListView<Label> listView = new ListView<>();
                 listView.setOrientation(Orientation.HORIZONTAL);
-                listView.setFixedCellSize(50);
+                listView.setPrefHeight(35);
 
                 //Create an observable list of labels. We will feed this into our listview
                 ObservableList<Label> labels = FXCollections.observableArrayList();
@@ -167,14 +163,14 @@ public class bonusMonitor extends Controller {
             }
 
             //Add data to main vBox
-            vBox.getChildren().addAll(topFiveBox,bottomFiveBox);
+            hBox.getChildren().addAll(topFiveBox,bottomFiveBox);
 
         });
 
     }
 
-    public VBox getVBox(){
-        return vBox;
+    public HBox getHBox(){
+        return hBox;
     }
 
     @Override
