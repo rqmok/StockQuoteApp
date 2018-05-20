@@ -225,8 +225,13 @@ public class ApplicationController extends Application implements UpdateStockDat
         for (Controller controller : controllers) {
             ArrayList<Monitor> selectedMonitors = controller.getSelectedMonitors();
 
+            // Make sure monitor list is not null to prevent crash
+            if (selectedMonitors == null)
+                continue;
+
             // Remove the selected monitors
             for (Monitor monitor : selectedMonitors) {
+
                 // Ask the model to remove the monitor
                 model.removeMonitor(monitor);
             }
