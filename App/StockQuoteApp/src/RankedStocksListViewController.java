@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class bonusMonitor extends Controller {
+public class RankedStocksListViewController extends Controller {
 
     private HBox hBox;
 
-    public bonusMonitor(){
+    public RankedStocksListViewController(){
         hBox = new HBox();
     }
 

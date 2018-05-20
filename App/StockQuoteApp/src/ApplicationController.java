@@ -3,7 +3,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
@@ -129,13 +128,13 @@ public class ApplicationController extends Application implements UpdateStockDat
         ListView<LineChart> graphListView = graphListViewController.getListView();
 
         //Add new monitor
-        bonusMonitor bonusMonitor = new bonusMonitor();
-        controllers.add(bonusMonitor);
-        HBox bonusView = bonusMonitor.getHBox();
+        RankedStocksListViewController rankedStocksListViewController = new RankedStocksListViewController();
+        controllers.add(rankedStocksListViewController);
+        HBox rankedListViewBox = rankedStocksListViewController.getHBox();
 
         // Create V box to contain table monitor and top/bottom 5 monitor
         VBox tableListBox = new VBox();
-        tableListBox.getChildren().addAll(stocksTableView, bonusView);
+        tableListBox.getChildren().addAll(stocksTableView, rankedListViewBox);
         tableListBox.setVgrow(stocksTableView, Priority.SOMETIMES);
 
         // Create a HBox to contain all monitors
