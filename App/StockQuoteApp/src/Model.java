@@ -16,7 +16,7 @@ public class Model {
         services.add(new StockQuoteWSAdapter());
         services.add(new StockQuoteTLSAdapter());
     }
-
+    //Create a monitor object
     public Monitor addMonitor(String symbol, StockService.serviceTypes serviceType, Monitor.monitorTypes monitorType) {
         // Check for empty symbol text
         if (symbol == null || symbol.length() == 0) {
@@ -76,7 +76,7 @@ public class Model {
 
         this.monitors.remove(monitor);
     }
-
+    //Function to return all the monitors
     public ArrayList<Monitor> getMonitors() {
         return monitors;
     }
@@ -88,7 +88,8 @@ public class Model {
 
         return getMonitors();
     }
-
+    //For each stock associated with that particular service type, call its updateStockData() function, so that it
+    //retrieves the latest set of stock data from the service
     public ArrayList<Monitor> updateStockData(StockService.serviceTypes serviceType) {
         for (Stock stock : stocks) {
             if (stock.getStockService().getServiceType() == serviceType) {

@@ -3,7 +3,10 @@ import stockquoteservice.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//The purpose of this class is to take the information from the stock service and transform it so that it is usable by
+//our application. This will be achieved by storing the data in a StockData object. This object will thus be used by the
+//system to process the data. Furthermore, this class also exists to ensure that no erroneous or unexpected data is
+//returned to this system
 public class StockQuoteWSAdapter implements StockService {
 
     private serviceTypes serviceType = serviceTypes.STOCK_QUOTE_WS_SERVICE;

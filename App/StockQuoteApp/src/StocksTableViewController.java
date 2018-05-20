@@ -25,7 +25,7 @@ public class StocksTableViewController extends Controller {
             column.setPrefWidth(100);
             columns.add(column);
         }
-
+        //create columns
         for (int i = 0; i < columns.size(); i++) {
             TableColumn<Monitor, String> column = columns.get(i);
             final int columnIndex = i;
@@ -47,29 +47,30 @@ public class StocksTableViewController extends Controller {
             tableView.getColumns().add(column);
         }
     }
-
+    //Update the data in the tableView
+    //Call the model to get update set of monitors
     public void update(ArrayList<Monitor> monitors) {
         if (monitors == null) {
             return;
         }
 
         tableView.getItems().clear();
-
+        //Create new observable list
         ObservableList<Monitor> data = FXCollections.observableArrayList();
-
+        //Add all relevant monitors to observable list
         for (Monitor monitor : monitors) {
             if (monitor.getMonitorType() == Monitor.monitorTypes.TABLE_MONITOR) {
                 data.add(monitor);
             }
         }
-
+        //Add observable list to our table view
         tableView.setItems(data);
     }
 
     public TableView<Monitor> getTableView() {
         return tableView;
     }
-
+    //Return selected monitors. This method facilitates the delete monitor method in the Controller class
     public ArrayList<Monitor> getSelectedMonitors() {
         ArrayList<Monitor> selectedMonitors = new ArrayList<>();
 

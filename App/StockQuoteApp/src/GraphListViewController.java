@@ -24,7 +24,7 @@ public class GraphListViewController extends Controller {
         if (monitors == null) {
             return;
         }
-
+        //Ensure we are running in a javafx application thread
         Platform.runLater(() -> {
             // Clear current list
             listView.getItems().clear();
@@ -137,7 +137,7 @@ public class GraphListViewController extends Controller {
         return listView;
     }
 
-    //THIS IS A TEMPORARY FUNCTION FOR CONVERTING TO THE TIME FORMAT TO AN INT
+    //THIS IS A FUNCTION FOR CONVERTING TO THE TIME FORMAT TO AN INT
     private static int toMins(String s) {
         String[] hourMin = s.split(":");
 
@@ -150,7 +150,7 @@ public class GraphListViewController extends Controller {
         return hoursInMins + mins;
     }
 
-
+    //Return selected monitors. This method facilitates the delete monitor method in the Controller class
     public ArrayList<Monitor> getSelectedMonitors() {
         ArrayList<Monitor> selectedMonitors = new ArrayList<>();
         for (LineChart lineChart : listView.getSelectionModel().getSelectedItems()) {

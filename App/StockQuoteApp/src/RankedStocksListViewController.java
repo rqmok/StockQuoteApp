@@ -25,7 +25,7 @@ public class RankedStocksListViewController extends Controller {
         if (monitors == null) {
             return;
         }
-
+        //Ensure we are running in a javafx application thread
         Platform.runLater(() -> {
 
             //Clear the vBox
@@ -139,7 +139,7 @@ public class RankedStocksListViewController extends Controller {
             //Do the same for the bottom 5 stocks
             VBox bottomFiveBox = new VBox();
 
-            for (int i = 0; i < bottomFive.size() ; i++){
+            for (int i = 0; i < bottomFive.size() && i < 5 ; i++){
                 //Initialise the heading
                 if (i == 0){
                     Label bottomFiveLabel = new Label("Worst 5 Stock Gains");

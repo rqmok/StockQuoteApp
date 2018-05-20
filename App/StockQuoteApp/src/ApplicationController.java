@@ -244,14 +244,14 @@ public class ApplicationController extends Application implements UpdateStockDat
 
         this.resourcesBusy = false;
     }
-
+    //Provide current set of monitors to the controller
     public void updateControllers() {
         // Update all view controllers
         for (Controller controller : controllers) {
             controller.update(model.getMonitors());
         }
     }
-
+    //Udpate stock data
     public void updateStockData(StockService.serviceTypes serviceType) {
         checkResourcesBusy();
 
@@ -266,7 +266,7 @@ public class ApplicationController extends Application implements UpdateStockDat
 
         this.resourcesBusy = false;
     }
-
+    //Prevent concurrent modification by delaying actions until the resource busy flag sets to false
     private void checkResourcesBusy() {
         while (resourcesBusy) {
             // Check again after one second
