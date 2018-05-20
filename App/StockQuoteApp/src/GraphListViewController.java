@@ -14,6 +14,7 @@ public class GraphListViewController extends Controller {
 
     private ListView<LineChart> listView;
     private ArrayList<Monitor> monitorList;
+    //Create dictionary of monitors with associated strings. This will be used to pair a graph with its associated monitor
     Map<String, Monitor> monitorDictionary = new HashMap<String, Monitor>();
 
     public GraphListViewController(){
@@ -132,12 +133,12 @@ public class GraphListViewController extends Controller {
         });
 
     }
-
+    //This function will be used by the application controller to retrieve the scene created in this class
     public ListView<LineChart> getListView(){
         return listView;
     }
 
-    //THIS IS A FUNCTION FOR CONVERTING TO THE TIME FORMAT TO AN INT
+    //This function converts the time format to an int
     private static int toMins(String s) {
         String[] hourMin = s.split(":");
 
@@ -150,7 +151,9 @@ public class GraphListViewController extends Controller {
         return hoursInMins + mins;
     }
 
-    //Return selected monitors. This method facilitates the delete monitor method in the Controller class
+    //Return selected monitors. This method facilitates the delete monitor method in the Application Controller class
+    //Using the dictionary, get the ID of each selected graph and retrieve its associated monitor. These monitors will
+    //be returned to the application controller for deletion
     public ArrayList<Monitor> getSelectedMonitors() {
         ArrayList<Monitor> selectedMonitors = new ArrayList<>();
         for (LineChart lineChart : listView.getSelectionModel().getSelectedItems()) {

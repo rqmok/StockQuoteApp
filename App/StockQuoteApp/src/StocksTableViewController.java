@@ -66,11 +66,12 @@ public class StocksTableViewController extends Controller {
         //Add observable list to our table view
         tableView.setItems(data);
     }
-
+    //Return the tableView variable. This function will be used by the application controller to retrieve the scene
+    //created in this class
     public TableView<Monitor> getTableView() {
         return tableView;
     }
-    //Return selected monitors. This method facilitates the delete monitor method in the Controller class
+    //Return selected monitors. This method facilitates the delete monitor method in the Application Controller class
     public ArrayList<Monitor> getSelectedMonitors() {
         ArrayList<Monitor> selectedMonitors = new ArrayList<>();
 

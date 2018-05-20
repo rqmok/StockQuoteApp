@@ -50,7 +50,7 @@ public class StockQuoteWSAdapter implements StockService {
     public serviceTypes getServiceType() {
         return this.serviceType;
     }
-
+    //Method that calls the stock service to retrieve the set of field names
     public ArrayList<String> getFieldNames() {
         List fieldNamesList = SQPort.getFieldNames().getReturn();
 

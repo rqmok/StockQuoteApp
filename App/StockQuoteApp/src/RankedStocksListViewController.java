@@ -175,7 +175,7 @@ public class RankedStocksListViewController extends Controller {
         });
 
     }
-
+    //This function will be used by the application controller to retrieve the scene created in this class
     public HBox getHBox(){
         return hBox;
     }
